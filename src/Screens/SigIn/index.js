@@ -7,6 +7,7 @@ import { Header } from '../SigIn/Components/Header'
 
 import SvgFaceId from '../../svgs/signIn/SvgFaceId'
 import { useApiAuth } from './Hooks/useApiAuth'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const initialInputs = {
 	Email: 'caescobar976@gmail.com',
@@ -19,12 +20,25 @@ export const SigIn = ({ navigation }) => {
 	const handleChange = (name) => (value) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
+	const storeData = async (value) => {
+		try {
+			const token = JSON.stringify(value)
+			await AsyncStorage.setItem('token', token)
+		} catch (e) {
+			console.error(e)
+		}
+	}
 
 	const onPressSignIn = async () => {
-		console.log('envio de datos ')
-		res = await postDataLogin(Inputs.Email, Inputs.Password)
-		console.log(res)
-		navigation.navigate(ROUTERS.Dashboard)
+		res = await postDataLogin({
+			email: Inputs.Email,
+			password: Inputs.Password
+		})
+
+		if (res.access_token) {
+			await storeData(res.access_token)
+			navigation.navigate(ROUTERS.Purse)
+		}
 	}
 
 	const onPressForgot = () => {

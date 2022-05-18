@@ -7,7 +7,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 const Stack = createNativeStackNavigator()
 
 const Navigator = Stack.Navigator
-const Screen = Stack.Screen
 
 const ROUTERS = {
 	Onboarding: 'Onboarding',
@@ -15,10 +14,14 @@ const ROUTERS = {
 	ForgotPassword: 'ForgotPassword',
 	Profile: 'Profile',
 	Notification: 'Notification',
-	Dashboard: 'Dashboard'
+	Dashboard: 'Dashboard',
+	MyLicense: 'MyLicense',
+	Purse: 'Purse',
+	Contracts: 'Contracts',
+	CreateContracts: 'CreateContracts'
 }
 
-export { Stack, NavigationContainer, Navigator, Screen, ROUTERS }
+export { Stack, NavigationContainer, Navigator, ROUTERS }
 
 export const navigationRef = React.createRef()
 export function navigate(name, params) {
