@@ -1,23 +1,24 @@
+import { styles } from './styles'
+import { ROUTERS } from '../../utils/navigation'
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native'
-
+import { useNavigation } from '@react-navigation/native'
+import { getDataContracts } from './Api/getDataContracts'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
-
-import { styles } from './styles'
-
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { getDataContracts } from './Api/getDataContracts'
-import { ROUTERS } from '../../utils/navigation'
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native'
 
 export const Contracts = ({ onOpen }) => {
 	const [dataApi, setDataApi] = useState(null)
 	const navigation = useNavigation()
-	const getToken = async () => {
+	const getTokenAndBusiness = async () => {
 		try {
 			const jsonValue = await AsyncStorage.getItem('token')
-			return jsonValue != null ? JSON.parse(jsonValue) : null
+			const business = await AsyncStorage.getItem('business')
+			return {
+				token: jsonValue != null ? JSON.parse(jsonValue) : null,
+				business: business != null ? JSON.parse(business) : null
+			}
 		} catch (e) {
 			// error reading value
 			console.log(e)
@@ -29,8 +30,10 @@ export const Contracts = ({ onOpen }) => {
 
 	useEffect(() => {
 		;(async () => {
+			const { token, business } = getTokenAndBusiness()
 			const data = await getDataContracts({
-				token: await getToken()
+				token,
+				business
 			})
 			setDataApi(data.data)
 		})()

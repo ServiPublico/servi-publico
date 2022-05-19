@@ -27,10 +27,14 @@ export const Purse = ({ onOpen }) => {
 	const [MenuPurse, setMenuPurse] = useState('14%')
 	const [numParam, setnumParam] = useState(0)
 
-	const getToken = async () => {
+	const getTokenAndBusiness = async () => {
 		try {
 			const jsonValue = await AsyncStorage.getItem('token')
-			return jsonValue != null ? JSON.parse(jsonValue) : null
+			const business = await AsyncStorage.getItem('business')
+			return {
+				token: jsonValue != null ? JSON.parse(jsonValue) : null,
+				business: business != null ? JSON.parse(business) : null
+			}
 		} catch (e) {
 			// error reading value
 			console.log(e)
@@ -39,8 +43,10 @@ export const Purse = ({ onOpen }) => {
 
 	useEffect(() => {
 		;(async () => {
+			const { token, business } = getTokenAndBusiness()
 			const data = await getApiPurse({
-				token: await getToken(),
+				token,
+				business,
 				paramasUrl: urlParms[numParam]
 			})
 			setDataApi(data)
@@ -88,7 +94,7 @@ export const Purse = ({ onOpen }) => {
 						</Text>
 						<Text style={styles.time}>fecha: {data.payment_date}</Text>
 						<Text style={styles.total}>Total: {data.cost}</Text>
-						<TouchableOpacity style={styles.btnFlow}>
+						<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
 							<Text style={styles.txtFlow}>Ver mas </Text>
 						</TouchableOpacity>
 					</View>

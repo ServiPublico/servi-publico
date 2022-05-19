@@ -20,18 +20,33 @@ import SvgClient1 from '../../svgs/profile/SvgClient1'
 // import SvgClient5 from '../../svgs/profile/SvgClient5'
 
 import { useLicense } from './Hooks/useLicense'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const keyExtractor = (item) => item.id.toString()
 
 export const MyLicense = ({ route }) => {
-	const { token } = route.params
+	const getToken = async () => {
+		try {
+			const jsonValue = await AsyncStorage.getItem('token')
+			const business = await AsyncStorage.getItem('business')
+			return {
+				token: jsonValue != null ? JSON.parse(jsonValue) : null,
+				business: business != null ? JSON.parse(business) : null
+			}
+		} catch (e) {
+			// error reading value
+			console.log(e)
+		}
+	}
 	const { getLicense } = useLicense()
 
 	const [data, setData] = useState(null)
 
 	useEffect(() => {
 		;(async () => {
-			const res = await getLicense({ token })
+			const { token, business } = await getToken()
+			console.log(business)
+			const res = await getLicense({ token, business })
 			setData(res)
 		})()
 	}, [])

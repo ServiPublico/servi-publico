@@ -4,40 +4,66 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { ROUTERS } from '../../utils/navigation'
 import { Input } from '../SigIn/Components/Input'
 import { Header } from '../SigIn/Components/Header'
+import SelectDropdown from 'react-native-select-dropdown'
 
 import SvgFaceId from '../../svgs/signIn/SvgFaceId'
 import { useApiAuth } from './Hooks/useApiAuth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const initialInputs = {
-	Email: 'caescobar976@gmail.com',
-	Password: '16076310'
+	Email: 'glasipa2014@hotmail.com',
+	Password: '22418165'
 }
+
+const businessNames = [
+	'Trans. Especiales M&L',
+	'Empresa Demostración',
+	'Readytransport SAS',
+	'Redes Por Mi Colombia S.A.S',
+	'Grupo Emprendedores Futuro S.A.S',
+	'Transporte Los Cardos De Colombia S.A.S',
+	'Cootranscachipay',
+	'Transdaga S.A.S'
+]
+
+const businessUrl = [
+	'myl',
+	'demo',
+	'ready',
+	'redes',
+	'futuro',
+	'cardos',
+	'cachipay',
+	'transdaga'
+]
 
 export const SigIn = ({ navigation }) => {
 	const [Inputs, setInputs] = useState(initialInputs)
 	const { postDataLogin } = useApiAuth()
+	const [dataSelectBusiness, setDataSelectBusiness] = useState(null)
 	const handleChange = (name) => (value) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
-	const storeData = async (value) => {
+	const storeData = async (tokenSave, businessSave) => {
 		try {
-			const token = JSON.stringify(value)
+			const token = JSON.stringify(tokenSave)
+			const business = JSON.stringify(businessSave)
+			await AsyncStorage.setItem('business', business)
 			await AsyncStorage.setItem('token', token)
 		} catch (e) {
 			console.error(e)
 		}
 	}
 
-	const onPressSignIn = async () => {
+	const onPressSignIn = async (indexBusiness) => {
 		res = await postDataLogin({
 			email: Inputs.Email,
 			password: Inputs.Password
 		})
 
 		if (res.access_token) {
-			await storeData(res.access_token)
-			navigation.navigate(ROUTERS.Purse)
+			await storeData(res.access_token, businessUrl[indexBusiness])
+			navigation.navigate(ROUTERS.MyLicense)
 		}
 	}
 
@@ -54,6 +80,42 @@ export const SigIn = ({ navigation }) => {
 				handleChange={handleChange}
 				value={Inputs.Email}
 			/>
+			<SelectDropdown
+				data={businessNames}
+				onSelect={(selectedItem, index) => {
+					setDataSelectBusiness(index)
+					console.log(selectedItem, index)
+				}}
+				defaultButtonText='Selecciona la empresa'
+				buttonStyle={{
+					marginTop: 10,
+					marginHorizontal: 40,
+					borderRadius: 24,
+					borderWidth: 1,
+					borderColor: '#EAE8EA',
+					height: 48,
+					flexDirection: 'row',
+					alignItems: 'center',
+					paddingHorizontal: 16,
+					width: '80%'
+				}}
+				buttonTextStyle={{
+					flex: 1,
+					fontSize: 15,
+					padding: 0,
+					margin: 0
+				}}
+				buttonTextAfterSelection={(selectedItem, index) => {
+					// text represented after item is selected
+					// if data array is an array of objects then return selectedItem.property to render after item is selected
+					return selectedItem
+				}}
+				rowTextForSelection={(item, index) => {
+					// text represented for each item in dropdown
+					// if data array is an array of objects then return item.property to represent item in dropdown
+					return item
+				}}
+			/>
 			<Input
 				value={Inputs.Password}
 				mt={16}
@@ -62,7 +124,12 @@ export const SigIn = ({ navigation }) => {
 				handleChange={handleChange}
 			/>
 			<View style={styles.containerSignIn}>
-				<TouchableOpacity style={styles.btnSignIn} onPress={onPressSignIn}>
+				<TouchableOpacity
+					style={styles.btnSignIn}
+					onPress={() => {
+						onPressSignIn(dataSelectBusiness)
+					}}
+				>
 					<Text style={styles.txtSignIn}>SIGN IN</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.btnFaceId} onPress={onPressSignIn}>
@@ -75,17 +142,17 @@ export const SigIn = ({ navigation }) => {
 
 			<View style={styles.containerOr}>
 				<View style={styles.line} />
-				<Text style={styles.txtOr}>or</Text>
+				{/* <Text style={styles.txtOr}>or</Text> */}
 				<View style={styles.line} />
 			</View>
 
-			<TouchableOpacity style={styles.btnSignFb} onPress={onPressSignIn}>
+			{/* <TouchableOpacity style={styles.btnSignFb} onPress={onPressSignIn}>
 				<Text style={styles.txtSignInFb}>Sign In With Facebook</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity style={styles.btnSignInGoogle}>
 				<Text style={styles.txtSignInFb}>Sign In With Google</Text>
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 
 			<TouchableOpacity style={styles.btnSignUp}>
 				<Text style={styles.txtSignUp}>Don’t Have Account? Sign UP</Text>

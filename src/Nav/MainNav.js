@@ -6,10 +6,10 @@ import store from '../store'
 
 import {
 	Stack,
-	NavigationContainer,
-	navigationRef,
+	ROUTERS,
 	Navigator,
-	ROUTERS
+	navigationRef,
+	NavigationContainer
 } from '../utils/navigation'
 
 import { Purse } from '../Screens/Purse'

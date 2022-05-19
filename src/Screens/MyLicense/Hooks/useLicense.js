@@ -1,9 +1,10 @@
 import React from 'react'
 
 export const useLicense = () => {
-	const getLicense = async ({ token }) => {
+	const getLicense = async ({ token, business }) => {
+		console.log(`https://${business}.servipublico.com/api/my-license`)
 		try {
-			const url = 'https://demo.servipublico.com/api/my-license'
+			const url = `https://${business}.servipublico.com/api/my-license`
 			let myHeaders = new Headers()
 			myHeaders.append('Accept', 'application/json')
 			myHeaders.append('Authorization', `Bearer ${token}`)

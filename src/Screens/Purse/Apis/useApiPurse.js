@@ -1,6 +1,6 @@
-export const getApiPurse = async ({ token, paramasUrl }) => {
+export const getApiPurse = async ({ token, business, paramasUrl }) => {
 	try {
-		const url = `https://demo.servipublico.com/api/my-purshes?status_pay=${paramasUrl}`
+		const url = `https://${business}.servipublico.com/api/my-purshes?status_pay=${paramasUrl}`
 		let myHeaders = new Headers()
 		myHeaders.append('Accept', 'application/json')
 		myHeaders.append('Authorization', `Bearer ${token}`)
