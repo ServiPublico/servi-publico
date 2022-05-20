@@ -37,9 +37,9 @@ export const StaticsHealth = ({ navigation }) => {
 				<TouchableOpacity style={styles.btnClose} onPress={onPressMenu}>
 					<SvgOption />
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.btnOption}>
+				{/* <TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 
 			<View style={styles.containerTime}>

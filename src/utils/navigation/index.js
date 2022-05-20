@@ -9,19 +9,27 @@ const Stack = createNativeStackNavigator()
 const Navigator = Stack.Navigator
 
 const ROUTERS = {
-	Onboarding: 'Onboarding',
 	SigIn: 'SigIn',
-	ForgotPassword: 'ForgotPassword',
-	Profile: 'Profile',
-	Notification: 'Notification',
-	Dashboard: 'Dashboard',
-	MyLicense: 'MyLicense',
+	Onboarding: 'Onboarding',
+	ForgotPassword: 'ForgotPassword'
+}
+
+const PROTECTEDROUTES = {
+	Fuec: 'Fuec',
 	Purse: 'Purse',
+	Beads: 'Beads',
+	Routes: 'Routes',
+	Profile: 'Profile',
+	MyLicense: 'MyLicense',
 	Contracts: 'Contracts',
+	Dashboard: 'Dashboard',
+	Incidents: 'Incidents',
+	Notification: 'Notification',
+	CreateRoutes: 'CreateRoutes',
 	CreateContracts: 'CreateContracts'
 }
 
-export { Stack, NavigationContainer, Navigator, ROUTERS }
+export { Stack, NavigationContainer, Navigator, ROUTERS, PROTECTEDROUTES }
 
 export const navigationRef = React.createRef()
 export function navigate(name, params) {

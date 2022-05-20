@@ -1,5 +1,5 @@
 import { styles } from './styles'
-import { ROUTERS } from '../../utils/navigation'
+import { PROTECTEDROUTES, ROUTERS } from '../../utils/navigation'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { getDataContracts } from './Api/getDataContracts'
@@ -24,8 +24,9 @@ export const Contracts = ({ onOpen }) => {
 			console.log(e)
 		}
 	}
+
 	const onPressCreateContract = () => {
-		navigation.navigate(ROUTERS.CreateContracts)
+		navigation.navigate(PROTECTEDROUTES.CreateContracts)
 	}
 
 	useEffect(() => {
@@ -51,9 +52,9 @@ export const Contracts = ({ onOpen }) => {
 				<TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
 					<SvgOption />
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.btnOption}>
+				{/* <TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			<TouchableOpacity
 				onPress={onPressCreateContract}

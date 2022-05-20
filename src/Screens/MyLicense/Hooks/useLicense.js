@@ -2,7 +2,6 @@ import React from 'react'
 
 export const useLicense = () => {
 	const getLicense = async ({ token, business }) => {
-		console.log(`https://${business}.servipublico.com/api/my-license`)
 		try {
 			const url = `https://${business}.servipublico.com/api/my-license`
 			let myHeaders = new Headers()

@@ -34,7 +34,6 @@ export const MyLicense = ({ route }) => {
 				business: business != null ? JSON.parse(business) : null
 			}
 		} catch (e) {
-			// error reading value
 			console.log(e)
 		}
 	}
@@ -45,7 +44,6 @@ export const MyLicense = ({ route }) => {
 	useEffect(() => {
 		;(async () => {
 			const { token, business } = await getToken()
-			console.log(business)
 			const res = await getLicense({ token, business })
 			setData(res)
 		})()

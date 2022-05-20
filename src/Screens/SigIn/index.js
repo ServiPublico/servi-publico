@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 
-import { ROUTERS } from '../../utils/navigation'
+import { PROTECTEDROUTES, ROUTERS } from '../../utils/navigation'
 import { Input } from '../SigIn/Components/Input'
 import { Header } from '../SigIn/Components/Header'
 import SelectDropdown from 'react-native-select-dropdown'
@@ -38,12 +38,14 @@ const businessUrl = [
 ]
 
 export const SigIn = ({ navigation }) => {
-	const [Inputs, setInputs] = useState(initialInputs)
 	const { postDataLogin } = useApiAuth()
+	const [Inputs, setInputs] = useState(initialInputs)
 	const [dataSelectBusiness, setDataSelectBusiness] = useState(null)
+
 	const handleChange = (name) => (value) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
+
 	const storeData = async (tokenSave, businessSave) => {
 		try {
 			const token = JSON.stringify(tokenSave)
@@ -63,7 +65,7 @@ export const SigIn = ({ navigation }) => {
 
 		if (res.access_token) {
 			await storeData(res.access_token, businessUrl[indexBusiness])
-			navigation.navigate(ROUTERS.MyLicense)
+			navigation.navigate(PROTECTEDROUTES.Purse)
 		}
 	}
 
@@ -84,7 +86,6 @@ export const SigIn = ({ navigation }) => {
 				data={businessNames}
 				onSelect={(selectedItem, index) => {
 					setDataSelectBusiness(index)
-					console.log(selectedItem, index)
 				}}
 				defaultButtonText='Selecciona la empresa'
 				buttonStyle={{
@@ -105,16 +106,8 @@ export const SigIn = ({ navigation }) => {
 					padding: 0,
 					margin: 0
 				}}
-				buttonTextAfterSelection={(selectedItem, index) => {
-					// text represented after item is selected
-					// if data array is an array of objects then return selectedItem.property to render after item is selected
-					return selectedItem
-				}}
-				rowTextForSelection={(item, index) => {
-					// text represented for each item in dropdown
-					// if data array is an array of objects then return item.property to represent item in dropdown
-					return item
-				}}
+				buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+				rowTextForSelection={(item, index) => item}
 			/>
 			<Input
 				value={Inputs.Password}

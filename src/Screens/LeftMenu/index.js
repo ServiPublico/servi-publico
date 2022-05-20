@@ -1,4 +1,5 @@
-import React, { memo, useCallback, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { memo, useCallback, useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import SvgAvatar from '../../svgs/menu/SvgAvatar'
 import { navigate } from '../../utils/navigation'
@@ -7,48 +8,94 @@ import { navigate } from '../../utils/navigation'
 // // @ts-ignore
 // import { navigationRef } from 'nav/MainNav'
 
-const ROUTERS = [
-	'Onboarding',
-	'SigIn',
-	'ForgotPassword',
+const PROTECTEDROUTERS = [
+	'Fuec',
+	'Purse',
+	'Beads',
+	'Routes',
 	'Profile',
+	'MyLicense',
+	'Contracts',
+	'Dashboard',
+	'Incidents',
 	'Notification',
-	'Dashboard'
+	'CreateRoutes',
+	'CreateContracts'
 ]
+const ROUTERS = ['SigIn', 'Onboarding', 'ForgotPassword']
 
 export const LeftMenu = ({ onClose }) => {
 	const [index, setIndex] = useState(0)
+	const [tokenLogin, setTokenLogin] = useState(null)
 
 	const onPress = (key, index) => {
 		onClose()
-
 		navigate(key)
 		setIndex(index)
 	}
+
+	const getTokenAndBusiness = async () => {
+		try {
+			const jsonValue = await AsyncStorage.getItem('token')
+			return {
+				token: jsonValue != null ? JSON.parse(jsonValue) : null
+			}
+		} catch (e) {
+			console.log(e)
+		}
+	}
+
+	useEffect(() => {
+		;(async () => {
+			const { token } = await getTokenAndBusiness()
+			setTokenLogin(token)
+			setDataApi(data)
+		})()
+	}, [])
+
 	return (
 		<View style={styles.container}>
 			<SvgAvatar />
 			<Text style={styles.txtName}>Oscar Barrett</Text>
 			<Text style={styles.txtBalance}>Balance: $1,359.00</Text>
 			<View style={{ height: 60 }} />
-			{ROUTERS.map((item, key) => {
-				return (
-					<TouchableOpacity
-						style={styles.btn}
-						onPress={() => onPress(item, key)}
-						key={key}
-					>
-						<Text
-							style={[
-								styles.txt,
-								{ color: index !== key ? '#969696' : '#4B66EA' }
-							]}
-						>
-							{item}
-						</Text>
-					</TouchableOpacity>
-				)
-			})}
+			{tokenLogin
+				? PROTECTEDROUTERS.map((item, key) => {
+						return (
+							<TouchableOpacity
+								style={styles.btn}
+								onPress={() => onPress(item, key)}
+								key={key}
+							>
+								<Text
+									style={[
+										styles.txt,
+										{ color: index !== key ? '#969696' : '#4B66EA' }
+									]}
+								>
+									{item}
+								</Text>
+							</TouchableOpacity>
+						)
+				  })
+				: ROUTERS.map((item, key) => {
+						return (
+							<TouchableOpacity
+								style={styles.btn}
+								onPress={() => onPress(item, key)}
+								key={key}
+							>
+								<Text
+									style={[
+										styles.txt,
+										{ color: index !== key ? '#969696' : '#4B66EA' }
+									]}
+								>
+									{item}
+								</Text>
+							</TouchableOpacity>
+						)
+				  })}
 		</View>
 	)
 }

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useState, useEffect } from 'react'
 import {
 	Dimensions,
 	StyleSheet,
@@ -13,8 +13,8 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 import SvgIntro1 from '../../svgs/walkthroughs/SvgIntro1'
 import SvgIntro2 from '../../svgs/walkthroughs/SvgIntro2'
 import SvgIntro3 from '../../svgs/walkthroughs/SvgIntro3'
-import { ROUTERS } from '../../utils/navigation'
-import { CommonActions } from '@react-navigation/native'
+import { PROTECTEDROUTES, ROUTERS } from '../../utils/navigation'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width: viewportWidth } = Dimensions.get('window')
 
@@ -41,6 +41,25 @@ export const Walkthroughs = ({ navigation }) => {
 	const onPress = () => {
 		navigation.navigate(ROUTERS.SigIn)
 	}
+	const getToken = async () => {
+		try {
+			const jsonValue = await AsyncStorage.getItem('token')
+			return {
+				token: jsonValue != null ? JSON.parse(jsonValue) : null
+			}
+		} catch (e) {
+			console.log(e)
+		}
+	}
+	useEffect(() => {
+		;(async () => {
+			const token = await getToken()
+			if (token) {
+				console.log('entro')
+				navigation.navigate(PROTECTEDROUTES.MyLicense)
+			}
+		})()
+	}, [])
 
 	const renderItem = useCallback(({ item }) => {
 		const Svg = item.Svg
