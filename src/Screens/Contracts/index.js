@@ -1,29 +1,20 @@
 import { styles } from './styles'
-import { PROTECTEDROUTES, ROUTERS } from '../../utils/navigation'
-import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { getDataContracts } from './Api/getDataContracts'
+import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { NavFooter } from '../../Components/NavFooter'
+import { PROTECTEDROUTES } from '../../utils/navigation'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { View, Text, TouchableOpacity, StatusBar } from 'react-native'
+import { fetchDataContracts } from '../../redux/actions/actionContracts'
+import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
+import SvgAvatar from '../../svgs/menu/SvgAvatar'
+import { ScrollView } from 'react-native-gesture-handler'
 
-export const Contracts = ({ onOpen }) => {
-	const [dataApi, setDataApi] = useState(null)
+export const Contracts = ({ dataContracts, actions, onOpen }) => {
 	const navigation = useNavigation()
-	const getTokenAndBusiness = async () => {
-		try {
-			const jsonValue = await AsyncStorage.getItem('token')
-			const business = await AsyncStorage.getItem('business')
-			return {
-				token: jsonValue != null ? JSON.parse(jsonValue) : null,
-				business: business != null ? JSON.parse(business) : null
-			}
-		} catch (e) {
-			// error reading value
-			console.log(e)
-		}
-	}
+	const route = useRoute()
 
 	const onPressCreateContract = () => {
 		navigation.navigate(PROTECTEDROUTES.CreateContracts)
@@ -31,17 +22,13 @@ export const Contracts = ({ onOpen }) => {
 
 	useEffect(() => {
 		;(async () => {
-			const { token, business } = getTokenAndBusiness()
-			const data = await getDataContracts({
-				token,
-				business
-			})
-			setDataApi(data.data)
+			const { token, business } = await getTokenAndBusiness()
+			await actions.fetchDataContracts({ token, business })
 		})()
 	}, [])
 
 	return (
-		<View>
+		<View style={{ width: '100%', height: '100%' }}>
 			<StatusBar
 				translucent={true}
 				backgroundColor={'transparent'}
@@ -52,9 +39,9 @@ export const Contracts = ({ onOpen }) => {
 				<TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
 					<SvgOption />
 				</TouchableOpacity>
-				{/* <TouchableOpacity style={styles.btnOption}>
+				<TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity> */}
+				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
 				onPress={onPressCreateContract}
@@ -62,27 +49,48 @@ export const Contracts = ({ onOpen }) => {
 			>
 				<Text style={styles.txtUpdate}>Crear contrato</Text>
 			</TouchableOpacity>
+
 			<View style={{ padding: 15 }}>
-				{dataApi?.map((data) => (
-					<>
-						<Text>{data.contractor.c_name}</Text>
-						<Text>{data.end_date}</Text>
-						<Text>{data.object}</Text>
-					</>
-				))}
+				<ScrollView>
+					{dataContracts?.data.map((data) => (
+						<View
+							style={{
+								backgroundColor: '#FFF',
+								paddingTop: 50,
+								paddingLeft: 20,
+								marginTop: 10,
+								flexDirection: 'row'
+							}}
+						>
+							<View style={{ padding: 8 }}>
+								<SvgAvatar />
+							</View>
+							<View>
+								<Text style={styles.txtName}>{data.contractor.c_name}</Text>
+								<Text style={styles.txtBalance}>{data.end_date}</Text>
+								<Text>{data.object}</Text>
+								<View style={{ height: 60 }} />
+							</View>
+						</View>
+					))}
+				</ScrollView>
 			</View>
+			<NavFooter route={route.name} />
 		</View>
 	)
 }
 
-// const mapStateToProps = (state) => {
-// 	return {
-// 		dataPymes: state.first.dataPymes
-// 	}
-// }
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: { fetchDataContracts: fetchDataContracts(dispatch) }
+	}
+}
 
-// const mapDispatchToProps = {
-// 	fetchData
-// }
+function mapStateToProps(state) {
+	console.log(state)
+	return {
+		dataContracts: state.contractsReducer.dataContracts
+	}
+}
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Contracts)
+export default connect(mapStateToProps, mapDispatchToProps)(Contracts)

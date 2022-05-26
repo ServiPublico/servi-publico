@@ -19,6 +19,22 @@ export const styles = StyleSheet.create({
 		fontSize: 17,
 		color: '#fff'
 	},
+	txtBalance: {
+		fontSize: 14,
+		color: '#969696',
+
+		fontWeight: '600',
+		textTransform: 'uppercase',
+		marginTop: 2
+	},
+	txtName: {
+		fontSize: 18,
+		color: '#131313',
+
+		fontWeight: '600',
+		textTransform: 'uppercase',
+		marginTop: 9
+	},
 	btnUpdate: {
 		width: 160,
 		height: 40,

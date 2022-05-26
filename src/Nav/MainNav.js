@@ -1,34 +1,33 @@
-import React, { useRef } from 'react'
-import ScalingDrawer from 'react-native-scaling-drawer'
-
-import { Provider } from 'react-redux'
-import store from '../store'
-
 import {
 	Stack,
 	ROUTERS,
 	Navigator,
 	navigationRef,
-	NavigationContainer,
-	PROTECTEDROUTES
+	PROTECTEDROUTES,
+	NavigationContainer
 } from '../utils/navigation'
+import store from '../redux'
+import React, { useEffect, useRef, useState } from 'react'
+import { Provider } from 'react-redux'
+import ScalingDrawer from 'react-native-scaling-drawer'
 
-import { Purse } from '../Screens/Purse'
+import { Fuec } from '../Screens/Fuec'
+import { Beads } from '../Screens/Beads'
+import Purse from '../Screens/Purse'
 import { SigIn } from '../Screens/SigIn'
 import { Routes } from '../Screens/Routes'
 import { Profile } from '../Screens/Profile'
 import { LeftMenu } from '../Screens/LeftMenu'
-import { Contracts } from '../Screens/Contracts'
+import { Incidents } from '../Screens/Incidents'
+import Contracts from '../Screens/Contracts'
 import { MyLicense } from '../Screens/MyLicense'
 import { ForgotPass } from '../Screens/ForgotPass'
 import { Notification } from '../Screens/Notification'
 import { Walkthroughs } from '../Screens/Walkthroughs'
 import { StaticsHealth } from '../Screens/StaticsHealth'
-import { CreateContracts } from '../Screens/Contracts/Components/CreateContract'
 import { CreateRoutes } from '../Screens/Routes/CreateRoutes'
-import { Fuec } from '../Screens/Fuec'
-import { Beads } from '../Screens/Beads'
-import { Incidents } from '../Screens/Incidents'
+import { CreateContracts } from '../Screens/Contracts/Components/CreateContract'
+import { getToken } from '../utils/storage/getTokenAndBussines'
 
 const optionNavigator = {
 	headerShown: false,
@@ -51,14 +50,21 @@ const defaultScalingDrawerConfig = {
 }
 
 export const MainNavigation = () => {
+	const getTokenState = async () => {
+		const { token } = await getToken()
+		console.log(token)
+		return token
+	}
+
 	const drawer = useRef()
+
 	const onClose = () => {
 		drawer.current?.close()
 	}
+
 	const onOpen = () => {
 		drawer.current?.open()
 	}
-
 	return (
 		<Provider store={store}>
 			<ScalingDrawer
@@ -72,7 +78,9 @@ export const MainNavigation = () => {
 							headerShown: false,
 							gestureEnabled: false
 						}}
-						initialRouteName={ROUTERS.Onboarding}
+						initialRouteName={
+							getTokenState() === null ? ROUTERS.SigIn : ROUTERS.Onboarding
+						}
 					>
 						<Stack.Screen
 							name={ROUTERS.Onboarding}

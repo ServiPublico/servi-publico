@@ -41,25 +41,6 @@ export const Walkthroughs = ({ navigation }) => {
 	const onPress = () => {
 		navigation.navigate(ROUTERS.SigIn)
 	}
-	const getToken = async () => {
-		try {
-			const jsonValue = await AsyncStorage.getItem('token')
-			return {
-				token: jsonValue != null ? JSON.parse(jsonValue) : null
-			}
-		} catch (e) {
-			console.log(e)
-		}
-	}
-	useEffect(() => {
-		;(async () => {
-			const token = await getToken()
-			if (token) {
-				console.log('entro')
-				navigation.navigate(PROTECTEDROUTES.MyLicense)
-			}
-		})()
-	}, [])
 
 	const renderItem = useCallback(({ item }) => {
 		const Svg = item.Svg

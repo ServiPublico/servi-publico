@@ -1,11 +1,11 @@
-import { GET_PYMES, READ_USERS } from './actionTypes'
+import { GET_PYMES, READ_USERS } from '../actionsTypes/actionTypes'
 
 const initialState = {
 	characters: [],
-	dataPymes: null
+	dataPymes: []
 }
 
-export default function (state = initialState, action) {
+export const firtsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case READ_USERS:
 			return {

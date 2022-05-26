@@ -17,13 +17,13 @@ import SvgGlueco from '../../svgs/staticsHealth/SvgGlueco'
 import SvgEdit from '../../svgs/staticsHealth/SvgEdit'
 import SvgWeight from '../../svgs/staticsHealth/SvgWeight'
 import { Chart } from './components/Chart'
+import { NavFooter } from '../../Components/NavFooter'
+import { useRoute } from '@react-navigation/native'
 
 const dataTime = ['DAYS', 'WEEKS', 'MONTHS', 'YEARS']
 
 export const StaticsHealth = ({ navigation }) => {
-	const onPressMenu = () => {
-		navigation.openDrawer()
-	}
+	const route = useRoute()
 
 	return (
 		<View style={styles.container}>
@@ -33,13 +33,13 @@ export const StaticsHealth = ({ navigation }) => {
 				barStyle={'light-content'}
 			/>
 			<View style={styles.header}>
-				<Text style={styles.title}>Test Indicators</Text>
-				<TouchableOpacity style={styles.btnClose} onPress={onPressMenu}>
+				<Text style={styles.title}>INFORMACION</Text>
+				<TouchableOpacity style={styles.btnClose}>
 					<SvgOption />
 				</TouchableOpacity>
-				{/* <TouchableOpacity style={styles.btnOption}>
+				<TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity> */}
+				</TouchableOpacity>
 			</View>
 
 			<View style={styles.containerTime}>
@@ -99,6 +99,7 @@ export const StaticsHealth = ({ navigation }) => {
 					</View>
 				</View>
 			</ScrollView>
+			<NavFooter route={route.name} />
 		</View>
 	)
 }

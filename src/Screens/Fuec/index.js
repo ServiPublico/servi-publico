@@ -1,12 +1,16 @@
 import React from 'react'
-import { Text, View, StatusBar, TouchableOpacity } from 'react-native'
-import SvgOption from '../../svgs/notification/SvgOption'
-import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
 import { styles } from './style'
+import { useRoute } from '@react-navigation/native'
+import { NavFooter } from '../../Components/NavFooter'
+import SvgOption from '../../svgs/staticsHealth/SvgOptions'
+import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
+import { Text, View, StatusBar, TouchableOpacity } from 'react-native'
 
 export const Fuec = () => {
+	const route = useRoute()
+
 	return (
-		<View>
+		<View style={{ width: '100%', height: '100%' }}>
 			<StatusBar
 				translucent={true}
 				backgroundColor={'transparent'}
@@ -14,13 +18,14 @@ export const Fuec = () => {
 			/>
 			<View style={styles.header}>
 				<Text style={styles.title}>Fuec</Text>
-				{/* <TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
+				<TouchableOpacity style={styles.btnClose}>
 					<SvgOption />
-				</TouchableOpacity> */}
-				{/* <TouchableOpacity style={styles.btnOption}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity> */}
+				</TouchableOpacity>
 			</View>
+			<NavFooter route={route.name} />
 		</View>
 	)
 }

@@ -1,12 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import React, { memo, useCallback, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import SvgAvatar from '../../svgs/menu/SvgAvatar'
 import { navigate } from '../../utils/navigation'
-// import { Montserrat } from 'utils/fonts'
-// import { useNavigation } from '@react-navigation/native'
-// // @ts-ignore
-// import { navigationRef } from 'nav/MainNav'
 
 const PROTECTEDROUTERS = [
 	'Fuec',

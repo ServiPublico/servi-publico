@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import {
 	View,
 	Text,
@@ -6,50 +5,37 @@ import {
 	StatusBar,
 	ScrollView
 } from 'react-native'
-
+import { styles } from './styles'
+import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useRoute } from '@react-navigation/native'
+import { NavFooter } from '../../Components/NavFooter'
+import { fetchData } from '../../redux/actions/action'
+import SvgHover from '../../svgs/staticsHealth/SvgHover'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
-import SvgHover from '../../svgs/staticsHealth/SvgHover'
-
-import { styles } from './styles'
-import { getApiPurse } from './Apis/useApiPurse'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
 const dataTime = ['No pago', 'Parcialmente pago', 'Pago completo']
 const urlParms = ['No+Pago', 'Parcialmente+Pago', 'Pago+completo']
 
-export const Purse = ({ onOpen }) => {
-	const [dataApi, setDataApi] = useState(null)
+const Purse = ({ dataPymes, actions, onOpen }) => {
 	const [MenuPurse, setMenuPurse] = useState('14%')
 	const [numParam, setnumParam] = useState(0)
-
-	const getTokenAndBusiness = async () => {
-		try {
-			const jsonValue = await AsyncStorage.getItem('token')
-			const business = await AsyncStorage.getItem('business')
-			return {
-				token: jsonValue != null ? JSON.parse(jsonValue) : null,
-				business: business != null ? JSON.parse(business) : null
-			}
-		} catch (e) {
-			console.log(e)
-		}
-	}
-
+	const route = useRoute()
 	useEffect(() => {
 		;(async () => {
 			const { token, business } = await getTokenAndBusiness()
-			const data = await getApiPurse({
+			await actions.fetchDataAction({
 				token,
 				business,
 				paramasUrl: urlParms[numParam]
 			})
-			setDataApi(data)
 		})()
 	}, [numParam])
 
 	return (
-		<View>
+		<View style={{ position: 'relative', width: '100%', height: '100%' }}>
 			<StatusBar
 				translucent={true}
 				backgroundColor={'transparent'}
@@ -60,11 +46,10 @@ export const Purse = ({ onOpen }) => {
 				<TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
 					<SvgOption />
 				</TouchableOpacity>
-				{/* <TouchableOpacity style={styles.btnOption}>
+				<TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity> */}
+				</TouchableOpacity>
 			</View>
-
 			<View style={styles.containerTime}>
 				{dataTime.map((item, i) => (
 					<React.Fragment key={i}>
@@ -83,7 +68,7 @@ export const Purse = ({ onOpen }) => {
 				<SvgHover style={[styles.svgHover, { left: MenuPurse }]} />
 			</View>
 			<ScrollView>
-				{dataApi?.map((data, i) => (
+				{dataPymes?.map((data, i) => (
 					<React.Fragment key={i}>
 						<View style={styles.item}>
 							<Text style={styles.name}>
@@ -98,18 +83,20 @@ export const Purse = ({ onOpen }) => {
 					</React.Fragment>
 				))}
 			</ScrollView>
+			<NavFooter route={route.name} />
 		</View>
 	)
 }
 
-// const mapStateToProps = (state) => {
-// 	return {
-// 		dataPymes: state.first.dataPymes
-// 	}
-// }
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: { fetchDataAction: fetchData(dispatch) }
+	}
+}
+function mapStateToProps(state) {
+	return {
+		dataPymes: state.firtsReducer.dataPymes
+	}
+}
 
-// const mapDispatchToProps = {
-// 	fetchData
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Purse)
+export default connect(mapStateToProps, mapDispatchToProps)(Purse)
