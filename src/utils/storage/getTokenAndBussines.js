@@ -10,7 +10,7 @@ export const getTokenAndBusiness = async () => {
 			business: business != null ? JSON.parse(business) : null
 		}
 	} catch (e) {
-		console.log(e)
+		console.error(e)
 		return { error: e }
 	}
 }
@@ -20,7 +20,7 @@ export const getToken = async () => {
 		const token = await AsyncStorage.getItem('token')
 		return { token: token != null ? JSON.parse(token) : null }
 	} catch (e) {
-		console.log(e)
+		console.error(e)
 		return false
 	}
 }

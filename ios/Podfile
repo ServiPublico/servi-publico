@@ -21,6 +21,8 @@ target 'serviPublic' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
+
   target 'serviPublicTests' do
     inherit! :complete
     # Pods for testing

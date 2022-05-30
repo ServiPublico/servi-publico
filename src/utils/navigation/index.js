@@ -17,7 +17,6 @@ const ROUTERS = {
 const PROTECTEDROUTES = {
 	Fuec: 'Fuec',
 	Purse: 'Purse',
-	Beads: 'Beads',
 	Routes: 'Routes',
 	Profile: 'Profile',
 	MyLicense: 'MyLicense',

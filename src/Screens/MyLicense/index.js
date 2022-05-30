@@ -34,7 +34,7 @@ export const MyLicense = ({ route }) => {
 				business: business != null ? JSON.parse(business) : null
 			}
 		} catch (e) {
-			console.log(e)
+			console.error(e)
 		}
 	}
 	const { getLicense } = useLicense()

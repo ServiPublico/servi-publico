@@ -1,0 +1,1 @@
+export const GET_LICENSES = 'GET_LICENSES'

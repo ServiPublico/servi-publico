@@ -7,27 +7,25 @@ import {
 	NavigationContainer
 } from '../utils/navigation'
 import store from '../redux'
-import React, { useEffect, useRef, useState } from 'react'
-import { Provider } from 'react-redux'
-import ScalingDrawer from 'react-native-scaling-drawer'
-
-import { Fuec } from '../Screens/Fuec'
-import { Beads } from '../Screens/Beads'
 import Purse from '../Screens/Purse'
+import React, { useRef } from 'react'
+import { Provider } from 'react-redux'
+import Fuec from '../Screens/Fuec'
 import { SigIn } from '../Screens/SigIn'
 import { Routes } from '../Screens/Routes'
+import Contracts from '../Screens/Contracts'
 import { Profile } from '../Screens/Profile'
 import { LeftMenu } from '../Screens/LeftMenu'
-import { Incidents } from '../Screens/Incidents'
-import Contracts from '../Screens/Contracts'
+import Incidents from '../Screens/Incidents'
 import { MyLicense } from '../Screens/MyLicense'
 import { ForgotPass } from '../Screens/ForgotPass'
 import { Notification } from '../Screens/Notification'
 import { Walkthroughs } from '../Screens/Walkthroughs'
+import ScalingDrawer from 'react-native-scaling-drawer'
 import { StaticsHealth } from '../Screens/StaticsHealth'
 import { CreateRoutes } from '../Screens/Routes/CreateRoutes'
-import { CreateContracts } from '../Screens/Contracts/Components/CreateContract'
 import { getToken } from '../utils/storage/getTokenAndBussines'
+import { CreateContracts } from '../Screens/Contracts/Components/CreateContract'
 
 const optionNavigator = {
 	headerShown: false,
@@ -52,7 +50,6 @@ const defaultScalingDrawerConfig = {
 export const MainNavigation = () => {
 	const getTokenState = async () => {
 		const { token } = await getToken()
-		console.log(token)
 		return token
 	}
 
@@ -92,12 +89,45 @@ export const MainNavigation = () => {
 							component={SigIn}
 							options={optionNavigator}
 						/>
+						<Stack.Screen options={optionNavigator} name={PROTECTEDROUTES.Fuec}>
+							{() => <Fuec onOpen={onOpen} />}
+						</Stack.Screen>
+
+						<Stack.Screen
+							options={optionNavigator}
+							name={PROTECTEDROUTES.Contracts}
+						>
+							{() => <Contracts onOpen={onOpen} />}
+						</Stack.Screen>
 						<Stack.Screen
 							name={PROTECTEDROUTES.Dashboard}
 							component={StaticsHealth}
 							options={optionNavigator}
 						/>
-
+						<Stack.Screen
+							options={optionNavigator}
+							name={PROTECTEDROUTES.Purse}
+						>
+							{() => <Purse onOpen={onOpen} />}
+						</Stack.Screen>
+						<Stack.Screen
+							options={optionNavigator}
+							name={PROTECTEDROUTES.Incidents}
+						>
+							{() => <Incidents onOpen={onOpen} />}
+						</Stack.Screen>
+						<Stack.Screen
+							options={optionNavigator}
+							name={PROTECTEDROUTES.Routes}
+						>
+							{() => <Routes onOpen={onOpen} />}
+						</Stack.Screen>
+						<Stack.Screen
+							options={optionNavigator}
+							name={PROTECTEDROUTES.CreateRoutes}
+						>
+							{() => <CreateRoutes onOpen={onOpen} />}
+						</Stack.Screen>
 						<Stack.Screen
 							name={ROUTERS.ForgotPassword}
 							component={ForgotPass}
@@ -120,48 +150,9 @@ export const MainNavigation = () => {
 						/>
 						<Stack.Screen
 							options={optionNavigator}
-							name={PROTECTEDROUTES.Purse}
-						>
-							{() => <Purse onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen
-							options={optionNavigator}
-							name={PROTECTEDROUTES.Contracts}
-						>
-							{() => <Contracts onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen
-							options={optionNavigator}
 							name={PROTECTEDROUTES.CreateContracts}
 						>
 							{() => <CreateContracts onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen
-							options={optionNavigator}
-							name={PROTECTEDROUTES.Routes}
-						>
-							{() => <Routes onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen
-							options={optionNavigator}
-							name={PROTECTEDROUTES.CreateRoutes}
-						>
-							{() => <CreateRoutes onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen options={optionNavigator} name={PROTECTEDROUTES.Fuec}>
-							{() => <Fuec onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen
-							options={optionNavigator}
-							name={PROTECTEDROUTES.Beads}
-						>
-							{() => <Beads onOpen={onOpen} />}
-						</Stack.Screen>
-						<Stack.Screen
-							options={optionNavigator}
-							name={PROTECTEDROUTES.Incidents}
-						>
-							{() => <Incidents onOpen={onOpen} />}
 						</Stack.Screen>
 					</Navigator>
 				</NavigationContainer>

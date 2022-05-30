@@ -5,7 +5,7 @@ const initialState = {
 	dataPymes: []
 }
 
-export const firtsReducer = (state = initialState, action) => {
+export const purseReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case READ_USERS:
 			return {

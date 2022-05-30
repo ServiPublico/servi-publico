@@ -65,7 +65,7 @@ export const SigIn = ({ navigation }) => {
 
 		if (res.access_token) {
 			await storeData(res.access_token, businessUrl[indexBusiness])
-			navigation.navigate(PROTECTEDROUTES.Purse)
+			navigation.navigate(PROTECTEDROUTES.Fuec)
 		}
 	}
 

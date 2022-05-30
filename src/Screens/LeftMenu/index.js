@@ -7,7 +7,6 @@ import { navigate } from '../../utils/navigation'
 const PROTECTEDROUTERS = [
 	'Fuec',
 	'Purse',
-	'Beads',
 	'Routes',
 	'Profile',
 	'MyLicense',
@@ -37,7 +36,7 @@ export const LeftMenu = ({ onClose }) => {
 				token: jsonValue != null ? JSON.parse(jsonValue) : null
 			}
 		} catch (e) {
-			console.log(e)
+			console.error(e)
 		}
 	}
 

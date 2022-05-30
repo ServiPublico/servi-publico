@@ -95,7 +95,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 function mapStateToProps(state) {
 	return {
-		dataPymes: state.firtsReducer.dataPymes
+		dataPymes: state.purseReducer.dataPymes
 	}
 }
 

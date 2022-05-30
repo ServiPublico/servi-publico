@@ -28,5 +28,52 @@ export const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 20,
 		right: 16
+	},
+	item: {
+		marginHorizontal: 16,
+		marginTop: 16,
+		backgroundColor: '#FFF',
+		paddingLeft: 17,
+		paddingTop: 20,
+		paddingBottom: 13,
+		borderRadius: 16
+	},
+	avatar: {
+		position: 'absolute',
+		top: 16,
+		left: 16
+	},
+	name: {
+		fontWeight: '600',
+		fontSize: 16,
+		color: '#1A051D'
+	},
+	des: {
+		fontWeight: '500',
+		color: '#1A051D'
+	},
+	time: {
+		fontSize: 14,
+		color: '#2D88B3',
+
+		marginTop: 4
+	},
+	total: {
+		fontSize: 14,
+		color: 'black',
+		marginTop: 4
+	},
+	btnFlow: {
+		width: 120,
+		height: 40,
+		borderRadius: 20,
+		backgroundColor: 'rgba(105,121,248,0.1)',
+		marginTop: 16,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	txtFlow: {
+		fontSize: 13,
+		color: '#6979F8'
 	}
 })

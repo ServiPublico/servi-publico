@@ -26,6 +26,16 @@ export const NavFooter = ({ route }) => {
 				}}
 			>
 				<IconNav
+					flag={route === PROTECTEDROUTES.Fuec}
+					route={PROTECTEDROUTES.Fuec}
+					text='Fuec'
+				/>
+				<IconNav
+					flag={route === PROTECTEDROUTES.Contracts}
+					route={PROTECTEDROUTES.Contracts}
+					text='Contratos'
+				/>
+				<IconNav
 					flag={route === PROTECTEDROUTES.Dashboard}
 					route={PROTECTEDROUTES.Dashboard}
 					text='Inicio'
@@ -36,34 +46,24 @@ export const NavFooter = ({ route }) => {
 					text='Cartera'
 				/>
 				<IconNav
-					flag={route === PROTECTEDROUTES.Contracts}
-					route={PROTECTEDROUTES.Contracts}
-					text='Contratos'
-				/>
-				<IconNav
-					flag={route === PROTECTEDROUTES.Fuec}
-					route={PROTECTEDROUTES.Fuec}
-					text='Fuec'
-				/>
-				<IconNav
-					flag={route === PROTECTEDROUTES.Routes}
-					route={PROTECTEDROUTES.Routes}
-					text='Rutas'
+					flag={route === PROTECTEDROUTES.Incidents}
+					route={PROTECTEDROUTES.Incidents}
+					text='Incidencia'
 				/>
 				<SvgHover
 					style={[
 						styles.svgHover,
 						{
 							left:
-								route === PROTECTEDROUTES.Dashboard
+								route === PROTECTEDROUTES.Fuec
 									? '8%'
-									: route === PROTECTEDROUTES.Purse
-									? '28%'
 									: route === PROTECTEDROUTES.Contracts
+									? '28%'
+									: route === PROTECTEDROUTES.Dashboard
 									? '48%'
-									: route === PROTECTEDROUTES.Fuec
+									: route === PROTECTEDROUTES.Purse
 									? '68%'
-									: route === PROTECTEDROUTES.Routes
+									: route === PROTECTEDROUTES.Incidents
 									? '88%'
 									: '8%'
 						}
