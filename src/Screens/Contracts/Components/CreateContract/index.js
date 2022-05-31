@@ -19,6 +19,10 @@ const typesContracts = [
 	'Escolar',
 	'Empresarial'
 ]
+const department = ['antioquia', 'Arauca', 'Amazonas']
+const municipality = ['Sabaneta', 'La estrella', 'Caldas']
+const typesVehicles = ['HMV123', 'LKU345', 'DRT908', 'OPT654', 'OLE432']
+
 const initialState = {
 	nitBussines: '',
 	nameOfBussineContract: '',
@@ -32,22 +36,56 @@ const initialState = {
 	addres: '',
 	numberOfPhone: ''
 }
+const initialStateTwo = {
+	numberOfContracts: '',
+	income: '',
+	typeContract: '',
+	assignVehicle: '',
+	assignFirstDriver: '',
+	assignSecondDriver: '',
+	assignThirdDriver: '',
+	assignFourthDriver: '',
+	objectOfContract: '',
+	department: '',
+	municipality: '',
+	conventionName: '',
+	startDate: '',
+	endDate: '',
+	detailOfContract: ''
+}
 
 export const CreateContracts = ({ onOpen }) => {
 	const navigation = useNavigation()
+	const [open, setOpen] = useState(false)
+	const [open1, setOpen1] = useState(false)
+	const [textDate, setTextDate] = useState({
+		textStartDate: 'fecha de inicio',
+		textEndDate: 'fecha de fin'
+	})
+	const [date, setDate] = useState(new Date())
+	const [date1, setDate1] = useState(new Date())
 	const [MenuPurse, setMenuPurse] = useState('23%')
 	const [inputsInTheView, setInputsInTheView] = useState(true)
-	const [date, setDate] = useState(new Date())
-	const [open, setOpen] = useState(false)
-	const [date1, setDate1] = useState(new Date())
-	const [open1, setOpen1] = useState(false)
 
 	const [inputsGroupOne, setInputsGroupOne] = useState(initialState)
+	const [inputsGroupTwo, setInputsGroupTwo] = useState(initialStateTwo)
 
 	const handleChange = (name) => (value) => {
 		setInputsGroupOne((state) => ({ ...state, [name]: value }))
 	}
-	console.log(inputsGroupOne)
+	const handleChangeTwo = (name) => (value) => {
+		setInputsGroupTwo((state) => ({ ...state, [name]: value }))
+	}
+	const handleChangeSelect = (name, value) => {
+		setInputsGroupTwo((state) => ({ ...state, [name]: value }))
+	}
+	const handleChangeTextDate = (name, value) => {
+		setTextDate({ ...textDate, [name]: value })
+	}
+	const onSubmitDate = () => {
+		console.log('aqui se envian los datos')
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -148,86 +186,105 @@ export const CreateContracts = ({ onOpen }) => {
 				) : (
 					<>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='numberOfContracts'
+							handleChange={handleChangeTwo}
 							label='Número de contrato'
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='income'
+							handleChange={handleChangeTwo}
 							label='Ingresos'
 						/>
 						<SelectDropdownCompo
+							name='typeContract'
+							handleChange={handleChangeSelect}
 							label='Tipo de contrato'
 							defaultButtonText='Tipo de contrato'
 							arrayData={typesContracts}
 						/>
 						<SelectDropdownCompo
+							name='assignVehicle'
+							handleChange={handleChangeSelect}
 							label='Asigna vehiculo'
 							defaultButtonText='Asigna vehiculo'
-							arrayData={typesContracts}
+							arrayData={typesVehicles}
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='assignFirstDriver'
+							handleChange={handleChangeTwo}
 							label='Asigna primer conductor'
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='assignSecondDriver'
+							handleChange={handleChangeTwo}
 							label='Asigna segundo conductor'
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='assignThirdDriver'
+							handleChange={handleChangeTwo}
 							label='Asigna tercer conductor'
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='assignFourthDriver'
+							handleChange={handleChangeTwo}
 							label='Asigna cuarto conductor '
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='objectOfContract'
+							handleChange={handleChangeTwo}
 							label='Objeto del contrato'
 						/>
 						<SelectDropdownCompo
+							name='department'
+							handleChange={handleChangeSelect}
 							label='Departamento'
 							defaultButtonText='Departamento'
-							arrayData={typesContracts}
+							arrayData={department}
 						/>
 						<SelectDropdownCompo
+							name='municipality'
+							handleChange={handleChangeSelect}
 							label='Municipio'
 							defaultButtonText='Municipio'
-							arrayData={typesContracts}
+							arrayData={municipality}
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='conventionName'
+							handleChange={handleChangeTwo}
 							label='Nombre del convenio'
 						/>
 						<DateComponent
-							text='Fecha de inicio'
+							nameInput='startDate'
+							handleChangeSelect={handleChangeSelect}
+							name='textStartDate'
+							handleChangeTextDate={handleChangeTextDate}
+							textLabel='fecha de inicio'
+							text={textDate.textStartDate}
 							open={open}
 							date={date}
 							setOpen={setOpen}
 							setDate={setDate}
 						/>
 						<DateComponent
-							text='Fecha de finalizado'
+							nameInput='endDate'
+							handleChangeSelect={handleChangeSelect}
+							name='textEndDate'
+							handleChangeTextDate={handleChangeTextDate}
+							textLabel='fecha de fin'
+							text={textDate.textEndDate}
 							open={open1}
 							date={date1}
 							setOpen={setOpen1}
 							setDate={setDate1}
 						/>
 						<Input
-							name='nitBussines'
-							handleChange={handleChange}
+							name='detailOfContract'
+							handleChange={handleChangeTwo}
 							label='Detalles del contrato'
 						/>
 						<TouchableOpacity
 							onPress={() => {
+								onSubmitDate()
 								setMenuPurse('23%')
 								setInputsInTheView(true)
 							}}

@@ -5,10 +5,11 @@ import Svg, { G, Path } from 'react-native-svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { useNavigation } from '@react-navigation/native'
+import SvgPdf from '../../../svgs/navFooter/SvgPdf'
 
-export const IconNav = ({ flag, route, text }) => {
+export const IconNav = ({ Icon, flag, route, text }) => {
 	const naviagtion = useNavigation()
-
+	// console.log(icon)
 	return (
 		<TouchableOpacity
 			onPress={() => {
@@ -23,9 +24,10 @@ export const IconNav = ({ flag, route, text }) => {
 		>
 			<View>
 				{flag ? (
-					<StarIcon />
-				) : (
 					<Text style={{ textAlign: 'center' }}>{text}</Text>
+				) : (
+					<Icon />
+					// <StarIcon />
 				)}
 			</View>
 		</TouchableOpacity>

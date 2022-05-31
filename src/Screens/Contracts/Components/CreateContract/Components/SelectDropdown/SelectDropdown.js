@@ -3,6 +3,8 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 
 export const SelectDropdownCompo = ({
+	name,
+	handleChange,
 	label,
 	arrayData,
 	defaultButtonText
@@ -14,8 +16,8 @@ export const SelectDropdownCompo = ({
 			</View>
 			<SelectDropdown
 				data={arrayData}
-				onSelect={(selectedItem, index) => {
-					setDataSelectBusiness(index)
+				onSelect={(selectedItem, i) => {
+					handleChange(name, selectedItem)
 				}}
 				defaultButtonText={defaultButtonText}
 				buttonStyle={styles.contentInput}

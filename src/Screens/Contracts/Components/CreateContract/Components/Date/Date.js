@@ -9,11 +9,22 @@ import {
 } from 'react-native'
 import DatePicker from 'react-native-date-picker'
 
-export const DateComponent = ({ text, open, date, setOpen, setDate }) => {
+export const DateComponent = ({
+	nameInput,
+	handleChangeSelect,
+	name,
+	handleChangeTextDate,
+	textLabel,
+	text,
+	open,
+	date,
+	setOpen,
+	setDate
+}) => {
 	return (
 		<>
 			<View style={{ marginHorizontal: 23, marginTop: 7 }}>
-				<Text>fecha de inicio</Text>
+				<Text>{textLabel}</Text>
 			</View>
 			<View style={[styles.contentInput, { marginTop: 10 }]}>
 				<TouchableOpacity style={styles.input} onPress={() => setOpen(true)}>
@@ -27,6 +38,8 @@ export const DateComponent = ({ text, open, date, setOpen, setDate }) => {
 				mode='date'
 				theme='dark'
 				onConfirm={(date) => {
+					handleChangeSelect(nameInput, date.toJSON())
+					handleChangeTextDate(name, date.toJSON())
 					setOpen(false)
 					setDate(date)
 				}}
