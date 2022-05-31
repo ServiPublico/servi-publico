@@ -36,7 +36,6 @@ export const DateComponent = ({
 				open={open}
 				date={date}
 				mode='date'
-				theme='dark'
 				onConfirm={(date) => {
 					handleChangeSelect(nameInput, date.toJSON())
 					handleChangeTextDate(name, date.toJSON())

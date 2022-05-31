@@ -1,6 +1,6 @@
 import { styles } from './style'
-import { Input } from './Components/Input/Input'
 import React, { useEffect, useState } from 'react'
+import { Input } from './Components/Input/Input'
 import { DateComponent } from './Components/Date/Date'
 import { useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -9,8 +9,12 @@ import SvgClose from '../../../../svgs/notification/SvgClose'
 import SvgHover from '../../../../svgs/staticsHealth/SvgHover'
 import SvgOption from '../../../../svgs/notification/SvgOption'
 import { SelectDropdownCompo } from './Components/SelectDropdown/SelectDropdown'
-
-const dataTime = ['Contratante', 'Contrato']
+import { connect } from 'react-redux'
+import {
+	fetchDataDepartment,
+	fetchDataMunicipality
+} from '../../../../redux/actions/actionContracts'
+import { getTokenAndBusiness } from '../../../../utils/storage/getTokenAndBussines'
 
 const typesContracts = [
 	'Particular',
@@ -19,10 +23,8 @@ const typesContracts = [
 	'Escolar',
 	'Empresarial'
 ]
-const department = ['antioquia', 'Arauca', 'Amazonas']
-const municipality = ['Sabaneta', 'La estrella', 'Caldas']
+const dataTime = ['Contratante', 'Contrato']
 const typesVehicles = ['HMV123', 'LKU345', 'DRT908', 'OPT654', 'OLE432']
-
 const initialState = {
 	nitBussines: '',
 	nameOfBussineContract: '',
@@ -54,7 +56,9 @@ const initialStateTwo = {
 	detailOfContract: ''
 }
 
-export const CreateContracts = ({ onOpen }) => {
+const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
+	const arrayDepartment = []
+	const arrayMunicipality = []
 	const navigation = useNavigation()
 	const [open, setOpen] = useState(false)
 	const [open1, setOpen1] = useState(false)
@@ -65,10 +69,27 @@ export const CreateContracts = ({ onOpen }) => {
 	const [date, setDate] = useState(new Date())
 	const [date1, setDate1] = useState(new Date())
 	const [MenuPurse, setMenuPurse] = useState('23%')
+	const [departamentName, setDepartamentName] = useState('')
 	const [inputsInTheView, setInputsInTheView] = useState(true)
-
 	const [inputsGroupOne, setInputsGroupOne] = useState(initialState)
 	const [inputsGroupTwo, setInputsGroupTwo] = useState(initialStateTwo)
+
+	useEffect(() => {
+		;(async () => {
+			const { token, business } = await getTokenAndBusiness()
+			await actions.fetchDataDepartmentAction({ token, business })
+			if (departamentName) {
+				const objId = getDepartment.filter(
+					(obj) => obj.text === departamentName
+				)
+				actions.fetchDataMunicipalityAction({
+					token,
+					business,
+					idDepartament: objId[0].value
+				})
+			}
+		})()
+	}, [departamentName])
 
 	const handleChange = (name) => (value) => {
 		setInputsGroupOne((state) => ({ ...state, [name]: value }))
@@ -83,8 +104,17 @@ export const CreateContracts = ({ onOpen }) => {
 		setTextDate({ ...textDate, [name]: value })
 	}
 	const onSubmitDate = () => {
+		console.log(inputsGroupOne)
+		console.log(inputsGroupTwo)
 		console.log('aqui se envian los datos')
 	}
+
+	getDepartment?.forEach((element) => {
+		arrayDepartment.push(element.text)
+	})
+	getMunicipality?.forEach((element) => {
+		arrayMunicipality.push(element.text)
+	})
 
 	return (
 		<View style={styles.container}>
@@ -235,18 +265,19 @@ export const CreateContracts = ({ onOpen }) => {
 							label='Objeto del contrato'
 						/>
 						<SelectDropdownCompo
+							setDepartamentName={setDepartamentName}
 							name='department'
 							handleChange={handleChangeSelect}
 							label='Departamento'
 							defaultButtonText='Departamento'
-							arrayData={department}
+							arrayData={arrayDepartment}
 						/>
 						<SelectDropdownCompo
 							name='municipality'
 							handleChange={handleChangeSelect}
 							label='Municipio'
 							defaultButtonText='Municipio'
-							arrayData={municipality}
+							arrayData={arrayMunicipality}
 						/>
 						<Input
 							name='conventionName'
@@ -299,14 +330,20 @@ export const CreateContracts = ({ onOpen }) => {
 	)
 }
 
-// const mapStateToProps = (state) => {
-// 	return {
-// 		dataPymes: state.first.dataPymes
-// 	}
-// }
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: {
+			fetchDataDepartmentAction: fetchDataDepartment(dispatch),
+			fetchDataMunicipalityAction: fetchDataMunicipality(dispatch)
+		}
+	}
+}
 
-// const mapDispatchToProps = {
-// 	fetchData
-// }
+function mapStateToProps(state) {
+	return {
+		getDepartment: state.contractsReducer.getDepartment,
+		getMunicipality: state.contractsReducer.getMunicipality
+	}
+}
 
-// export default connect(mapStateToProps, mapDispatchToProps)(CreateContracts)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateContracts)

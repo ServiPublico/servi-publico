@@ -50,7 +50,7 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 				<Text style={styles.txtUpdate}>Crear contrato</Text>
 			</TouchableOpacity>
 
-			<View style={{ padding: 15 }}>
+			<View style={{ width: '100%', height: '69%' }}>
 				<ScrollView>
 					{dataContracts?.data?.map((data, i) => (
 						<React.Fragment key={i}>

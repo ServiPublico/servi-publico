@@ -43,24 +43,27 @@ const Fuec = ({ dataFuec, actions, onOpen }) => {
 					<SvgSetting />
 				</TouchableOpacity>
 			</View>
-			<ScrollView>
-				{dataFuec?.map((data, i) => (
-					<React.Fragment key={i}>
-						<View style={styles.item}>
-							<Text style={styles.name}>
-								<Text style={styles.des}>{data?.details}</Text>
-							</Text>
-							<Text style={styles.time}>fecha: {data?.start_date}</Text>
-							<Text style={styles.total}>
-								Placa: {data?.vehicle?.car_plate}
-							</Text>
-							<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
-								<Text style={styles.txtFlow}>Descagar </Text>
-							</TouchableOpacity>
-						</View>
-					</React.Fragment>
-				))}
-			</ScrollView>
+			<View style={{ width: '100%', height: '76%' }}>
+				<ScrollView>
+					{dataFuec?.map((data, i) => (
+						<React.Fragment key={i}>
+							<View style={styles.item}>
+								<Text style={styles.name}>
+									<Text style={styles.des}>{data?.details}</Text>
+								</Text>
+								<Text style={styles.time}>fecha: {data?.start_date}</Text>
+								<Text style={styles.total}>
+									Placa: {data?.vehicle?.car_plate}
+								</Text>
+								<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
+									<Text style={styles.txtFlow}>Descagar </Text>
+								</TouchableOpacity>
+							</View>
+						</React.Fragment>
+					))}
+				</ScrollView>
+			</View>
+
 			<NavFooter route={route.name} />
 		</View>
 	)

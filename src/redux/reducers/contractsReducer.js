@@ -1,7 +1,13 @@
-import { GET_CONTRACTS } from '../actionsTypes/actionTypesContracts'
+import {
+	GET_CONTRACTS,
+	GET_DEPARTMENT,
+	GET_MUNICIPALITY
+} from '../actionsTypes/actionTypesContracts'
 
 const initialState = {
-	dataContracts: []
+	dataContracts: [],
+	getDepartment: [],
+	getMunicipality: []
 }
 
 export const contractsReducer = (state = initialState, action) => {
@@ -10,6 +16,16 @@ export const contractsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				dataContracts: action.payload
+			}
+		case GET_DEPARTMENT:
+			return {
+				...state,
+				getDepartment: action.payload
+			}
+		case GET_MUNICIPALITY:
+			return {
+				...state,
+				getMunicipality: action.payload
 			}
 		default: {
 			return state

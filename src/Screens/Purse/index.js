@@ -67,22 +67,25 @@ const Purse = ({ dataPymes, actions, onOpen }) => {
 				))}
 				<SvgHover style={[styles.svgHover, { left: MenuPurse }]} />
 			</View>
-			<ScrollView>
-				{dataPymes?.map((data, i) => (
-					<React.Fragment key={i}>
-						<View style={styles.item}>
-							<Text style={styles.name}>
-								<Text style={styles.des}>{data?.detail}</Text>
-							</Text>
-							<Text style={styles.time}>fecha: {data?.payment_date}</Text>
-							<Text style={styles.total}>Total: {data?.cost}</Text>
-							<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
-								<Text style={styles.txtFlow}>Ver mas </Text>
-							</TouchableOpacity>
-						</View>
-					</React.Fragment>
-				))}
-			</ScrollView>
+			<View style={{ width: '100%', height: '66%' }}>
+				<ScrollView>
+					{dataPymes?.map((data, i) => (
+						<React.Fragment key={i}>
+							<View style={styles.item}>
+								<Text style={styles.name}>
+									<Text style={styles.des}>{data?.detail}</Text>
+								</Text>
+								<Text style={styles.time}>fecha: {data?.payment_date}</Text>
+								<Text style={styles.total}>Total: {data?.cost}</Text>
+								<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
+									<Text style={styles.txtFlow}>Ver mas </Text>
+								</TouchableOpacity>
+							</View>
+						</React.Fragment>
+					))}
+				</ScrollView>
+			</View>
+
 			<NavFooter route={route.name} />
 		</View>
 	)

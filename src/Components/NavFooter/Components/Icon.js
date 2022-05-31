@@ -9,7 +9,6 @@ import SvgPdf from '../../../svgs/navFooter/SvgPdf'
 
 export const IconNav = ({ Icon, flag, route, text }) => {
 	const naviagtion = useNavigation()
-	// console.log(icon)
 	return (
 		<TouchableOpacity
 			onPress={() => {

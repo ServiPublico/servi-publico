@@ -25,7 +25,7 @@ import ScalingDrawer from 'react-native-scaling-drawer'
 import { StaticsHealth } from '../Screens/StaticsHealth'
 import { CreateRoutes } from '../Screens/Routes/CreateRoutes'
 import { getToken } from '../utils/storage/getTokenAndBussines'
-import { CreateContracts } from '../Screens/Contracts/Components/CreateContract'
+import CreateContracts from '../Screens/Contracts/Components/CreateContract'
 
 const optionNavigator = {
 	headerShown: false,

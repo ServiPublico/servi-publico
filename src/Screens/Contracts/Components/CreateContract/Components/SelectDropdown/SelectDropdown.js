@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 
 export const SelectDropdownCompo = ({
+	setDepartamentName,
 	name,
 	handleChange,
 	label,
@@ -17,6 +18,9 @@ export const SelectDropdownCompo = ({
 			<SelectDropdown
 				data={arrayData}
 				onSelect={(selectedItem, i) => {
+					if (setDepartamentName) {
+						setDepartamentName(selectedItem)
+					}
 					handleChange(name, selectedItem)
 				}}
 				defaultButtonText={defaultButtonText}
@@ -31,6 +35,7 @@ export const SelectDropdownCompo = ({
 
 const styles = StyleSheet.create({
 	contentInput: {
+		marginTop: 7,
 		marginHorizontal: 20,
 		borderRadius: 10,
 		borderWidth: 1,
@@ -42,6 +47,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	input: {
+		textAlign: 'left',
 		fontSize: 15,
 		padding: 0,
 		margin: 0

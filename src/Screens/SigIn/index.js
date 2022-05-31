@@ -9,6 +9,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import SvgFaceId from '../../svgs/signIn/SvgFaceId'
 import { useApiAuth } from './Hooks/useApiAuth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
 const initialInputs = {
 	Email: 'glasipa2014@hotmail.com',
@@ -58,7 +59,9 @@ export const SigIn = ({ navigation }) => {
 	}
 
 	const onPressSignIn = async (indexBusiness) => {
-		res = await postDataLogin({
+		const { business } = await getTokenAndBusiness()
+		const res = await postDataLogin({
+			business,
 			email: Inputs.Email,
 			password: Inputs.Password
 		})

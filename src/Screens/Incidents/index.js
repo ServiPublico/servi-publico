@@ -1,15 +1,18 @@
 import { styles } from './style'
 import { connect } from 'react-redux'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { NavFooter } from '../../Components/NavFooter'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
+import LottieView from 'lottie-react-native'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
-import { Text, View, StatusBar, TouchableOpacity } from 'react-native'
+import { Text, View, StatusBar, TouchableOpacity, Animated } from 'react-native'
 import { fetchDataIncidents } from '../../redux/actions/actionIncidents'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
+import lottie from '../../utils/lottie'
 
 const Incidents = ({ dataIncidents, actions }) => {
+	const [loopAnimation, setLoopAnimation] = useState(0)
 	const route = useRoute()
 	useEffect(() => {
 		;(async () => {
@@ -20,7 +23,13 @@ const Incidents = ({ dataIncidents, actions }) => {
 			})
 		})()
 	}, [])
-	console.log(dataIncidents)
+	const progress = useRef(new Animated.Value(0)).current
+	Animated.loop(progress, {
+		toValue: 2,
+		duration: 2000,
+		useNativeDriver: true
+	})
+
 	return (
 		<View style={{ width: '100%', height: '100%' }}>
 			<StatusBar
@@ -40,6 +49,20 @@ const Incidents = ({ dataIncidents, actions }) => {
 			{dataIncidents.length === 0 ? (
 				<View>
 					<Text> POR EL MOMENTO NO HAY INCIDENCIAS QUE MOSTRAR </Text>
+					<View
+						style={{
+							width: 200,
+							height: 200,
+							justifyContent: 'center'
+						}}
+					>
+						<LottieView
+							progress={progress}
+							autoplay
+							loop={true}
+							source={lottie.lottieFiles.animation}
+						/>
+					</View>
 				</View>
 			) : (
 				<View>
