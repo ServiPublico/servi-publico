@@ -1,25 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
+import { setToken } from '../../redux/actions/actionGlobal'
 import SvgAvatar from '../../svgs/menu/SvgAvatar'
-import { navigate } from '../../utils/navigation'
+import { navigate, ROUTERS } from '../../utils/navigation'
 
-const PROTECTEDROUTERS = [
-	'Fuec',
-	'Purse',
-	'Routes',
-	'Profile',
-	'MyLicense',
-	'Contracts',
-	'Dashboard',
-	'Incidents',
-	'Notification',
-	'CreateRoutes',
-	'CreateContracts'
-]
-const ROUTERS = ['SigIn', 'Onboarding', 'ForgotPassword']
+const PROTECTEDROUTERS = ['Fuec', 'Profile']
+const ROUTERSMAP = ['SigIn', 'Onboarding', 'ForgotPassword']
 
-export const LeftMenu = ({ onClose }) => {
+const LeftMenu = ({ tokenAuth, actions, onClose }) => {
 	const [index, setIndex] = useState(0)
 	const [tokenLogin, setTokenLogin] = useState(null)
 
@@ -40,13 +31,17 @@ export const LeftMenu = ({ onClose }) => {
 		}
 	}
 
-	useEffect(() => {
-		;(async () => {
-			const { token } = await getTokenAndBusiness()
-			setTokenLogin(token)
-			setDataApi(data)
-		})()
-	}, [])
+	;(async () => {
+		const { token } = await getTokenAndBusiness()
+		setTokenLogin(token)
+		setDataApi(data)
+	})()
+
+	const signOut = async () => {
+		await AsyncStorage.removeItem('token')
+		onClose()
+		actions.setTokenAction({ token: undefined })
+	}
 
 	return (
 		<View style={styles.container}>
@@ -54,8 +49,9 @@ export const LeftMenu = ({ onClose }) => {
 			<Text style={styles.txtName}>Oscar Barrett</Text>
 			<Text style={styles.txtBalance}>Balance: $1,359.00</Text>
 			<View style={{ height: 60 }} />
-			{tokenLogin
-				? PROTECTEDROUTERS.map((item, key) => {
+			{tokenAuth.token ? (
+				<View>
+					{PROTECTEDROUTERS.map((item, key) => {
 						return (
 							<TouchableOpacity
 								style={styles.btn}
@@ -72,28 +68,53 @@ export const LeftMenu = ({ onClose }) => {
 								</Text>
 							</TouchableOpacity>
 						)
-				  })
-				: ROUTERS.map((item, key) => {
-						return (
-							<TouchableOpacity
-								style={styles.btn}
-								onPress={() => onPress(item, key)}
-								key={key}
+					})}
+					<View>
+						<TouchableOpacity>
+							<Text onPress={signOut} style={styles.txt}>
+								{' '}
+								Cerar session
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			) : (
+				ROUTERSMAP.map((item, key) => {
+					return (
+						<TouchableOpacity
+							style={styles.btn}
+							onPress={() => onPress(item, key)}
+							key={key}
+						>
+							<Text
+								style={[
+									styles.txt,
+									{ color: index !== key ? '#969696' : '#4B66EA' }
+								]}
 							>
-								<Text
-									style={[
-										styles.txt,
-										{ color: index !== key ? '#969696' : '#4B66EA' }
-									]}
-								>
-									{item}
-								</Text>
-							</TouchableOpacity>
-						)
-				  })}
+								{item}
+							</Text>
+						</TouchableOpacity>
+					)
+				})
+			)}
 		</View>
 	)
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: { setTokenAction: setToken(dispatch) }
+	}
+}
+
+function mapStateToProps(state) {
+	return {
+		tokenAuth: state.globalReducer.tokenAuth
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftMenu)
 
 const styles = StyleSheet.create({
 	btn: {

@@ -3,25 +3,32 @@ import {
 	Text,
 	TouchableOpacity,
 	StatusBar,
-	ScrollView
+	ScrollView,
+	Animated
 } from 'react-native'
 import { styles } from './styles'
 import { connect } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import { useRoute } from '@react-navigation/native'
+import lottie from '../../utils/lottie'
+import LottieView from 'lottie-react-native'
 import { NavFooter } from '../../Components/NavFooter'
 import { fetchData } from '../../redux/actions/action'
 import SvgHover from '../../svgs/staticsHealth/SvgHover'
+import { PROTECTEDROUTES } from '../../utils/navigation'
+import React, { useEffect, useRef, useState } from 'react'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
 const dataTime = ['No pago', 'Parcialmente pago', 'Pago completo']
 const urlParms = ['No+Pago', 'Parcialmente+Pago', 'Pago+completo']
 
 const Purse = ({ dataPymes, actions, onOpen }) => {
+	const navigation = useNavigation()
 	const [MenuPurse, setMenuPurse] = useState('14%')
 	const [numParam, setnumParam] = useState(0)
+	const progress = useRef(new Animated.Value(0)).current
+
 	const route = useRoute()
 	useEffect(() => {
 		;(async () => {
@@ -33,6 +40,16 @@ const Purse = ({ dataPymes, actions, onOpen }) => {
 			})
 		})()
 	}, [numParam])
+
+	useEffect(() => {
+		Animated.loop(
+			Animated.timing(progress, {
+				duration: 2000,
+				toValue: 1,
+				useNativeDriver: true
+			})
+		).start()
+	}, [])
 
 	return (
 		<View style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -69,20 +86,55 @@ const Purse = ({ dataPymes, actions, onOpen }) => {
 			</View>
 			<View style={{ width: '100%', height: '66%' }}>
 				<ScrollView>
-					{dataPymes?.map((data, i) => (
-						<React.Fragment key={i}>
-							<View style={styles.item}>
-								<Text style={styles.name}>
-									<Text style={styles.des}>{data?.detail}</Text>
+					{dataPymes.length !== 0 ? (
+						<>
+							{dataPymes?.map((data, i) => (
+								<React.Fragment key={i}>
+									<View style={styles.item}>
+										<Text style={styles.name}>
+											<Text style={styles.des}>{data?.detail}</Text>
+										</Text>
+										<Text style={styles.time}>fecha: {data?.payment_date}</Text>
+										<Text style={styles.total}>Total: {data?.cost}</Text>
+										<TouchableOpacity
+											onPress={() =>
+												navigation.navigate(
+													PROTECTEDROUTES.MoreInfomationPurse,
+													{
+														data
+													}
+												)
+											}
+											style={styles.btnFlow}
+										>
+											<Text style={styles.txtFlow}>Ver mas</Text>
+										</TouchableOpacity>
+									</View>
+								</React.Fragment>
+							))}
+						</>
+					) : (
+						<>
+							<View>
+								<View
+									style={{
+										height: 200,
+										justifyContent: 'center'
+									}}
+								>
+									<LottieView
+										progress={progress}
+										autoplay
+										loop={true}
+										source={lottie.lottieFiles.animation}
+									/>
+								</View>
+								<Text style={{ padding: 10, textAlign: 'center' }}>
+									POR EL MOMENTO NO HAY PAGOS QUE MOSTRAR
 								</Text>
-								<Text style={styles.time}>fecha: {data?.payment_date}</Text>
-								<Text style={styles.total}>Total: {data?.cost}</Text>
-								<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
-									<Text style={styles.txtFlow}>Ver mas </Text>
-								</TouchableOpacity>
 							</View>
-						</React.Fragment>
-					))}
+						</>
+					)}
 				</ScrollView>
 			</View>
 

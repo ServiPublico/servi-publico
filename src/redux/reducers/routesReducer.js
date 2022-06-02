@@ -1,4 +1,3 @@
-import { GET_LICENSES } from '../actionsTypes/actionTypesLicense'
 import { GET_ROUTES } from '../actionsTypes/actionTypesRoutes'
 
 const initialState = {

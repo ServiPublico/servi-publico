@@ -6,8 +6,10 @@ import { createStore, applyMiddleware } from 'redux'
 import { routesReducer } from './reducers/routesReducer'
 import { contractsReducer } from './reducers/contractsReducer'
 import { incidentsReducer } from './reducers/incidentsReducer'
+import { globalReducer } from './reducers/globalReducer'
 
 const reducers = combineReducers({
+	globalReducer: globalReducer,
 	purseReducer: purseReducer,
 	FuecReducer: FuecReducer,
 	routesReducer: routesReducer,

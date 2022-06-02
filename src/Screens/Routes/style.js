@@ -28,5 +28,32 @@ export const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 20,
 		right: 16
+	},
+	containerSignIn: {
+		flexDirection: 'row',
+		marginHorizontal: 40,
+		marginTop: 24
+	},
+	btnSignIn: {
+		backgroundColor: '#0F4C81',
+		borderRadius: 24,
+		flex: 1,
+		height: 48,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	txtSignIn: {
+		fontWeight: '600',
+		color: '#FFF',
+		fontSize: 17
+	},
+	btnFaceId: {
+		width: 48,
+		height: 48,
+		borderRadius: 16,
+		backgroundColor: '#6979F8',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginLeft: 20
 	}
 })

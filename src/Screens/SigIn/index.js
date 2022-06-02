@@ -1,18 +1,19 @@
+import { connect } from 'react-redux'
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
-
-import { PROTECTEDROUTES, ROUTERS } from '../../utils/navigation'
+import { useApiAuth } from './Hooks/useApiAuth'
+import { ROUTERS } from '../../utils/navigation'
 import { Input } from '../SigIn/Components/Input'
 import { Header } from '../SigIn/Components/Header'
-import SelectDropdown from 'react-native-select-dropdown'
-
 import SvgFaceId from '../../svgs/signIn/SvgFaceId'
-import { useApiAuth } from './Hooks/useApiAuth'
+import SelectDropdown from 'react-native-select-dropdown'
+import { setToken } from '../../redux/actions/actionGlobal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
 const initialInputs = {
 	Email: 'glasipa2014@hotmail.com',
+	business: null,
 	Password: '22418165'
 }
 
@@ -38,12 +39,15 @@ const businessUrl = [
 	'transdaga'
 ]
 
-export const SigIn = ({ navigation }) => {
+const SigIn = ({ actions, navigation }) => {
 	const { postDataLogin } = useApiAuth()
 	const [Inputs, setInputs] = useState(initialInputs)
 	const [dataSelectBusiness, setDataSelectBusiness] = useState(null)
 
 	const handleChange = (name) => (value) => {
+		setInputs((state) => ({ ...state, [name]: value }))
+	}
+	const handleChangeSelect = (name, value) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
 
@@ -59,21 +63,38 @@ export const SigIn = ({ navigation }) => {
 	}
 
 	const onPressSignIn = async (indexBusiness) => {
-		const { business } = await getTokenAndBusiness()
-		const res = await postDataLogin({
-			business,
-			email: Inputs.Email,
-			password: Inputs.Password
-		})
+		if (validateDate(Inputs)) {
+			const res = await postDataLogin({
+				business: businessUrl[indexBusiness],
+				email: Inputs.Email,
+				password: Inputs.Password
+			})
 
-		if (res.access_token) {
-			await storeData(res.access_token, businessUrl[indexBusiness])
-			navigation.navigate(PROTECTEDROUTES.Fuec)
+			if (res.access_token) {
+				await storeData(res.access_token, businessUrl[indexBusiness])
+				actions.setTokenAction({ token: res.access_token })
+			}
 		}
 	}
 
 	const onPressForgot = () => {
 		navigation.navigate(ROUTERS.ForgotPassword)
+	}
+
+	const validateDate = (data) => {
+		const emailExp =
+			/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+		if (!emailExp.test(data?.Email)) {
+			return false
+		}
+		if (data.bussines === null) {
+			return false
+		}
+		if (data.Password === '') {
+			return false
+		}
+		return true
 	}
 
 	return (
@@ -88,6 +109,7 @@ export const SigIn = ({ navigation }) => {
 			<SelectDropdown
 				data={businessNames}
 				onSelect={(selectedItem, index) => {
+					handleChangeSelect('business', selectedItem)
 					setDataSelectBusiness(index)
 				}}
 				defaultButtonText='Selecciona la empresa'
@@ -135,27 +157,30 @@ export const SigIn = ({ navigation }) => {
 			<TouchableOpacity style={styles.btnForgot} onPress={onPressForgot}>
 				<Text style={styles.txtForgot}>Forgot password?</Text>
 			</TouchableOpacity>
-
 			<View style={styles.containerOr}>
 				<View style={styles.line} />
 				{/* <Text style={styles.txtOr}>or</Text> */}
 				<View style={styles.line} />
 			</View>
-
-			{/* <TouchableOpacity style={styles.btnSignFb} onPress={onPressSignIn}>
-				<Text style={styles.txtSignInFb}>Sign In With Facebook</Text>
-			</TouchableOpacity>
-
-			<TouchableOpacity style={styles.btnSignInGoogle}>
-				<Text style={styles.txtSignInFb}>Sign In With Google</Text>
-			</TouchableOpacity> */}
-
 			<TouchableOpacity style={styles.btnSignUp}>
 				<Text style={styles.txtSignUp}>Don’t Have Account? Sign UP</Text>
 			</TouchableOpacity>
 		</View>
 	)
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: { setTokenAction: setToken(dispatch) }
+	}
+}
+function mapStateToProps(state) {
+	return {
+		tokenAuth: state.globalReducer.tokenAuth
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SigIn)
 
 const styles = StyleSheet.create({
 	container: {

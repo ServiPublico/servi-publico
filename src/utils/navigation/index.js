@@ -25,7 +25,8 @@ const PROTECTEDROUTES = {
 	Incidents: 'Incidents',
 	Notification: 'Notification',
 	CreateRoutes: 'CreateRoutes',
-	CreateContracts: 'CreateContracts'
+	CreateContracts: 'CreateContracts',
+	MoreInfomationPurse: 'MoreInfomationPurse'
 }
 
 export { Stack, NavigationContainer, Navigator, ROUTERS, PROTECTEDROUTES }

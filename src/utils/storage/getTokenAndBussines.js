@@ -18,7 +18,19 @@ export const getTokenAndBusiness = async () => {
 export const getToken = async () => {
 	try {
 		const token = await AsyncStorage.getItem('token')
-		return { token: token != null ? JSON.parse(token) : null }
+		return { token: token != null ? JSON.parse(token) : undefined }
+	} catch (e) {
+		console.error(e)
+		return false
+	}
+}
+
+export const getTBusines = async () => {
+	try {
+		const business = await AsyncStorage.getItem('business')
+		return {
+			business: business != null ? JSON.parse(business) : null
+		}
 	} catch (e) {
 		console.error(e)
 		return false

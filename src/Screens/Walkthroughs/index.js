@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
 	Dimensions,
 	StyleSheet,
@@ -14,7 +14,6 @@ import SvgIntro1 from '../../svgs/walkthroughs/SvgIntro1'
 import SvgIntro2 from '../../svgs/walkthroughs/SvgIntro2'
 import SvgIntro3 from '../../svgs/walkthroughs/SvgIntro3'
 import { PROTECTEDROUTES, ROUTERS } from '../../utils/navigation'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width: viewportWidth } = Dimensions.get('window')
 
@@ -30,9 +29,25 @@ export const sliderWidth = viewportWidth
 export const itemWidth = slideWidth + itemHorizontalMargin * 2
 
 const data = [
-	{ color: '#00C48C', Svg: SvgIntro1 },
-	{ color: '#0F4C81', Svg: SvgIntro2 },
-	{ color: '#6979F8', Svg: SvgIntro3 }
+	{
+		color: '#00C48C',
+		Svg: SvgIntro1,
+		textTitle: 'Gestiona Documentos',
+		descrip: 'Podrás generar y descargar fuecs de forma rápida y sencilla'
+	},
+	{
+		color: '#0F4C81',
+		Svg: SvgIntro2,
+		textTitle: 'Realiza pagos y mas',
+		descrip:
+			'De forma fácil y sencilla podrás conocer el estado de tus cuentas y realizar pagos'
+	},
+	{
+		color: '#6979F8',
+		Svg: SvgIntro3,
+		textTitle: 'Organiza tus rutas y planifica tu viaje',
+		descrip: ''
+	}
 ]
 
 export const Walkthroughs = ({ navigation }) => {
@@ -47,11 +62,8 @@ export const Walkthroughs = ({ navigation }) => {
 		return (
 			<View style={[styles.item, { backgroundColor: item.color }]}>
 				<Svg style={styles.svgIntro} />
-				<Text style={styles.title}>How Does An Screen Work</Text>
-				<Text style={styles.des}>
-					Shure's Music Adapter (MPA) is our favorite iPhone solution, since it
-					lets you use the headphones you're
-				</Text>
+				<Text style={styles.title}>{item.textTitle}</Text>
+				<Text style={styles.des}>{item.descrip}</Text>
 			</View>
 		)
 	}, [])
@@ -64,7 +76,9 @@ export const Walkthroughs = ({ navigation }) => {
 				barStyle={'dark-content'}
 			/>
 			<View style={styles.header}>
-				<SvgLogo />
+				<Text style={{ fontSize: 25, color: 'black', fontWeight: '800' }}>
+					SERVIPUBLICO
+				</Text>
 				<Pagination
 					dotsLength={4}
 					activeDotIndex={indexActive}
@@ -98,8 +112,8 @@ export const Walkthroughs = ({ navigation }) => {
 const styles = StyleSheet.create({
 	slider: {
 		marginTop: 15,
-		height: '70%',
-		overflow: 'visible', // for custom animations
+		height: '80%',
+		overflow: 'hidden', // for custom animations
 		padding: 0,
 		margin: 0
 	},

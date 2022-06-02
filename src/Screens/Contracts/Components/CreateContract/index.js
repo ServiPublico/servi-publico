@@ -12,9 +12,14 @@ import { SelectDropdownCompo } from './Components/SelectDropdown/SelectDropdown'
 import { connect } from 'react-redux'
 import {
 	fetchDataDepartment,
-	fetchDataMunicipality
+	fetchDataDriverVehicle,
+	fetchDataMunicipality,
+	fetchDataVehicle
 } from '../../../../redux/actions/actionContracts'
 import { getTokenAndBusiness } from '../../../../utils/storage/getTokenAndBussines'
+import { postDataContract } from '../../Api/postDataContract'
+import { Modal } from '../../../../Components/Modal'
+import { PROTECTEDROUTES } from '../../../../utils/navigation'
 
 const typesContracts = [
 	'Particular',
@@ -24,41 +29,48 @@ const typesContracts = [
 	'Empresarial'
 ]
 const dataTime = ['Contratante', 'Contrato']
-const typesVehicles = ['HMV123', 'LKU345', 'DRT908', 'OPT654', 'OLE432']
 const initialState = {
-	nitBussines: '',
-	nameOfBussineContract: '',
-	addresOffice: '',
-	phoneNumber: '',
-	email: '',
-	webPage: '',
-	nameContract: '',
-	lastName: '',
-	citizenshipCard: '',
-	addres: '',
-	numberOfPhone: ''
+	nitBussines: '12435678',
+	nameOfBussineContract: 'Atalaya',
+	addresOffice: 'carrera43c#68asur-32',
+	phoneNumber: '3225713623',
+	email: 'camilo@gmail.com',
+	webPage: 'atalaya.com',
+	nameContact: 'diego',
+	lastNameContac: 'gonzalez',
+	citizenshipCard: '1039865545',
+	addres: 'calle69sur#46a14',
+	numberOfPhone: '3052934567'
 }
 const initialStateTwo = {
-	numberOfContracts: '',
-	income: '',
+	numberOfContracts: '29999999',
+	income: '1.200.00',
 	typeContract: '',
 	assignVehicle: '',
-	assignFirstDriver: '',
+	assignFirstDriver: 'diego gonzalez',
 	assignSecondDriver: '',
 	assignThirdDriver: '',
 	assignFourthDriver: '',
-	objectOfContract: '',
+	objectOfContract: 'trasporte de vehiculos',
 	department: '',
 	municipality: '',
-	conventionName: '',
+	conventionName: 'convenio de tranporte',
 	startDate: '',
 	endDate: '',
-	detailOfContract: ''
+	detailOfContract: 'solo sera por un mes '
 }
 
-const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
+const CreateContracts = ({
+	getDepartment,
+	getMunicipality,
+	getVehicles,
+	getDriverVehicle,
+	actions
+}) => {
 	const arrayDepartment = []
 	const arrayMunicipality = []
+	const arrayVehicles = []
+	const arrayDriversVehicle = []
 	const navigation = useNavigation()
 	const [open, setOpen] = useState(false)
 	const [open1, setOpen1] = useState(false)
@@ -68,28 +80,37 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 	})
 	const [date, setDate] = useState(new Date())
 	const [date1, setDate1] = useState(new Date())
+	const [idVehicle, setidVehicle] = useState(null)
 	const [MenuPurse, setMenuPurse] = useState('23%')
 	const [departamentName, setDepartamentName] = useState('')
 	const [inputsInTheView, setInputsInTheView] = useState(true)
 	const [inputsGroupOne, setInputsGroupOne] = useState(initialState)
 	const [inputsGroupTwo, setInputsGroupTwo] = useState(initialStateTwo)
-
+	const [flagModal, setflagModal] = useState(false)
 	useEffect(() => {
 		;(async () => {
 			const { token, business } = await getTokenAndBusiness()
 			await actions.fetchDataDepartmentAction({ token, business })
+			await actions.fetchDataVehiclesAction({ token, business })
 			if (departamentName) {
 				const objId = getDepartment.filter(
 					(obj) => obj.text === departamentName
 				)
-				actions.fetchDataMunicipalityAction({
+				await actions.fetchDataMunicipalityAction({
 					token,
 					business,
 					idDepartament: objId[0].value
 				})
 			}
+			if (idVehicle) {
+				await actions.fetchDataDriverVehiclesAction({
+					token,
+					business,
+					idVehicle
+				})
+			}
 		})()
-	}, [departamentName])
+	}, [departamentName, idVehicle])
 
 	const handleChange = (name) => (value) => {
 		setInputsGroupOne((state) => ({ ...state, [name]: value }))
@@ -98,15 +119,53 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 		setInputsGroupTwo((state) => ({ ...state, [name]: value }))
 	}
 	const handleChangeSelect = (name, value) => {
-		setInputsGroupTwo((state) => ({ ...state, [name]: value }))
+		if (name === 'assignVehicle') {
+			const { id } = getVehicles.find((element) => element.car_plate === value)
+			setidVehicle(id)
+			setInputsGroupTwo((state) => ({ ...state, [name]: id }))
+		} else if (name === 'department') {
+			const IdDepartment = getDepartment.find(
+				(element) => element.text === value
+			)
+			setInputsGroupTwo((state) => ({ ...state, [name]: IdDepartment.value }))
+		} else if (name === 'municipality') {
+			const IdMunicipality = getMunicipality.find(
+				(element) => element.text === value
+			)
+			setInputsGroupTwo((state) => ({
+				...state,
+				[name]: IdMunicipality.value
+			}))
+		} else if (
+			name === 'assignFirstDriver' ||
+			name === 'assignSecondDriver' ||
+			name === 'assignThirdDriver' ||
+			name === 'assignFourthDriver'
+		) {
+			const IdDriver = getDriverVehicle.find(
+				(element) => element.full_name === value
+			)
+			setInputsGroupTwo((state) => ({ ...state, [name]: IdDriver.id }))
+		} else {
+			setInputsGroupTwo((state) => ({ ...state, [name]: value }))
+		}
 	}
 	const handleChangeTextDate = (name, value) => {
-		setTextDate({ ...textDate, [name]: value })
+		const valueStr = value.split('T')
+		setTextDate({ ...textDate, [name]: valueStr[0] })
 	}
-	const onSubmitDate = () => {
-		console.log(inputsGroupOne)
-		console.log(inputsGroupTwo)
-		console.log('aqui se envian los datos')
+
+	const onSubmitDate = async () => {
+		const { token, business } = await getTokenAndBusiness()
+		const responsePost = await postDataContract({
+			business,
+			BearerToken: token,
+			obj1: inputsGroupOne,
+			obj2: inputsGroupTwo
+		})
+		if (responsePost.succes) {
+			setflagModal(true)
+		}
 	}
 
 	getDepartment?.forEach((element) => {
@@ -115,9 +174,21 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 	getMunicipality?.forEach((element) => {
 		arrayMunicipality.push(element.text)
 	})
+	getVehicles?.forEach((element) => {
+		arrayVehicles.push(element.car_plate)
+	})
+	getDriverVehicle?.forEach((element) => {
+		arrayDriversVehicle.push(element.full_name)
+	})
 
 	return (
 		<View style={styles.container}>
+			{flagModal && (
+				<Modal
+					message='Se a creado el contrato de manera correcta'
+					route={PROTECTEDROUTES.Contracts}
+				/>
+			)}
 			<View style={styles.header}>
 				<Text style={styles.title}>Crear Contrato</Text>
 				<TouchableOpacity
@@ -149,56 +220,67 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 				{inputsInTheView ? (
 					<>
 						<Input
+							value={inputsGroupOne.nitBussines}
 							name='nitBussines'
 							handleChange={handleChange}
 							label='Nit empresa contratante'
 						/>
 						<Input
+							value={inputsGroupOne.nameOfBussineContract}
 							name='nameOfBussineContract'
 							handleChange={handleChange}
 							label='Nombre de empresa contratante'
 						/>
 						<Input
+							value={inputsGroupOne.addresOffice}
 							name='addresOffice'
 							handleChange={handleChange}
 							label='Dirección de oficina principal'
 						/>
 						<Input
+							value={inputsGroupOne.phoneNumber}
 							name='phoneNumber'
 							handleChange={handleChange}
 							label='telefono celular'
 						/>
 						<Input
+							value={inputsGroupOne.email}
 							name='email'
 							handleChange={handleChange}
 							label='Correo electronico'
 						/>
 						<Input
+							value={inputsGroupOne.webPage}
 							name='webPage'
 							handleChange={handleChange}
 							label='Pagina web'
 						/>
 						<Input
-							name='nameContract'
+							value={inputsGroupOne.nameContact}
+							name='nameContact'
 							handleChange={handleChange}
 							label='Nombre del contacto'
 						/>
 						<Input
-							name='lastName'
+							value={inputsGroupOne.lastNameContac}
+							name='lastNameContac'
 							handleChange={handleChange}
 							label='Apellido del contacto'
 						/>
 						<Input
+							value={inputsGroupOne.citizenshipCard}
 							name='citizenshipCard'
 							handleChange={handleChange}
 							label='Numero de cedula de ciudadania'
 						/>
 						<Input
+							value={inputsGroupOne.addres}
 							name='addres'
 							handleChange={handleChange}
 							label='Direccion'
 						/>
 						<Input
+							value={inputsGroupOne.numberOfPhone}
 							name='numberOfPhone'
 							handleChange={handleChange}
 							label='Numero de celular'
@@ -216,11 +298,13 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 				) : (
 					<>
 						<Input
+							value={inputsGroupTwo.numberOfContracts}
 							name='numberOfContracts'
 							handleChange={handleChangeTwo}
 							label='Número de contrato'
 						/>
 						<Input
+							value={inputsGroupTwo.income}
 							name='income'
 							handleChange={handleChangeTwo}
 							label='Ingresos'
@@ -237,29 +321,39 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 							handleChange={handleChangeSelect}
 							label='Asigna vehiculo'
 							defaultButtonText='Asigna vehiculo'
-							arrayData={typesVehicles}
+							arrayData={arrayVehicles}
 						/>
-						<Input
+						<SelectDropdownCompo
 							name='assignFirstDriver'
-							handleChange={handleChangeTwo}
+							handleChange={handleChangeSelect}
+							defaultButtonText='primer conductor'
+							arrayData={arrayDriversVehicle}
 							label='Asigna primer conductor'
 						/>
-						<Input
+						<SelectDropdownCompo
 							name='assignSecondDriver'
-							handleChange={handleChangeTwo}
+							handleChange={handleChangeSelect}
+							defaultButtonText='segundo conductor'
+							arrayData={arrayDriversVehicle}
 							label='Asigna segundo conductor'
 						/>
-						<Input
+						<SelectDropdownCompo
 							name='assignThirdDriver'
-							handleChange={handleChangeTwo}
+							handleChange={handleChangeSelect}
+							defaultButtonText='tercer conductor'
+							arrayData={arrayDriversVehicle}
 							label='Asigna tercer conductor'
 						/>
-						<Input
+						<SelectDropdownCompo
 							name='assignFourthDriver'
-							handleChange={handleChangeTwo}
-							label='Asigna cuarto conductor '
+							handleChange={handleChangeSelect}
+							defaultButtonText='cuarto conductor'
+							arrayData={arrayDriversVehicle}
+							label='Asigna cuarto conductor'
 						/>
+
 						<Input
+							value={inputsGroupTwo.objectOfContract}
 							name='objectOfContract'
 							handleChange={handleChangeTwo}
 							label='Objeto del contrato'
@@ -280,6 +374,7 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 							arrayData={arrayMunicipality}
 						/>
 						<Input
+							value={inputsGroupTwo.conventionName}
 							name='conventionName'
 							handleChange={handleChangeTwo}
 							label='Nombre del convenio'
@@ -309,6 +404,7 @@ const CreateContracts = ({ getDepartment, getMunicipality, actions }) => {
 							setDate={setDate1}
 						/>
 						<Input
+							value={inputsGroupTwo.detailOfContract}
 							name='detailOfContract'
 							handleChange={handleChangeTwo}
 							label='Detalles del contrato'
@@ -334,7 +430,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
 			fetchDataDepartmentAction: fetchDataDepartment(dispatch),
-			fetchDataMunicipalityAction: fetchDataMunicipality(dispatch)
+			fetchDataMunicipalityAction: fetchDataMunicipality(dispatch),
+			fetchDataVehiclesAction: fetchDataVehicle(dispatch),
+			fetchDataDriverVehiclesAction: fetchDataDriverVehicle(dispatch)
 		}
 	}
 }
@@ -342,7 +440,9 @@ const mapDispatchToProps = (dispatch) => {
 function mapStateToProps(state) {
 	return {
 		getDepartment: state.contractsReducer.getDepartment,
-		getMunicipality: state.contractsReducer.getMunicipality
+		getMunicipality: state.contractsReducer.getMunicipality,
+		getVehicles: state.contractsReducer.getVehicles,
+		getDriverVehicle: state.contractsReducer.getDriverVehicle
 	}
 }
 

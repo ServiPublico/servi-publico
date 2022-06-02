@@ -1,19 +1,20 @@
 import { styles } from './style'
 import { connect } from 'react-redux'
-import React, { useEffect, useRef, useState } from 'react'
+import lottie from '../../utils/lottie'
+import LottieView from 'lottie-react-native'
+import React, { useEffect, useRef } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { NavFooter } from '../../Components/NavFooter'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
-import LottieView from 'lottie-react-native'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
-import { Text, View, StatusBar, TouchableOpacity, Animated } from 'react-native'
 import { fetchDataIncidents } from '../../redux/actions/actionIncidents'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
-import lottie from '../../utils/lottie'
+import { Text, View, StatusBar, TouchableOpacity, Animated } from 'react-native'
 
 const Incidents = ({ dataIncidents, actions }) => {
-	const [loopAnimation, setLoopAnimation] = useState(0)
 	const route = useRoute()
+	const progress = useRef(new Animated.Value(0)).current
+
 	useEffect(() => {
 		;(async () => {
 			const { token, business } = await getTokenAndBusiness()
@@ -23,12 +24,16 @@ const Incidents = ({ dataIncidents, actions }) => {
 			})
 		})()
 	}, [])
-	const progress = useRef(new Animated.Value(0)).current
-	Animated.loop(progress, {
-		toValue: 2,
-		duration: 2000,
-		useNativeDriver: true
-	})
+
+	useEffect(() => {
+		Animated.loop(
+			Animated.timing(progress, {
+				duration: 2000,
+				toValue: 1,
+				useNativeDriver: true
+			})
+		).start()
+	}, [])
 
 	return (
 		<View style={{ width: '100%', height: '100%' }}>
@@ -47,11 +52,9 @@ const Incidents = ({ dataIncidents, actions }) => {
 				</TouchableOpacity>
 			</View>
 			{dataIncidents.length === 0 ? (
-				<View>
-					<Text> POR EL MOMENTO NO HAY INCIDENCIAS QUE MOSTRAR </Text>
+				<View style={{}}>
 					<View
 						style={{
-							width: 200,
 							height: 200,
 							justifyContent: 'center'
 						}}
@@ -63,6 +66,9 @@ const Incidents = ({ dataIncidents, actions }) => {
 							source={lottie.lottieFiles.animation}
 						/>
 					</View>
+					<Text style={{ padding: 10, textAlign: 'center' }}>
+						POR EL MOMENTO NO HAY INCIDENCIAS QUE MOSTRAR
+					</Text>
 				</View>
 			) : (
 				<View>

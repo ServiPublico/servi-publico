@@ -57,20 +57,31 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 							<View
 								style={{
 									backgroundColor: '#FFF',
-									paddingTop: 50,
 									paddingLeft: 20,
-									marginTop: 10,
-									flexDirection: 'row'
+									marginTop: 10
 								}}
 							>
-								<View style={{ padding: 8 }}>
-									<SvgAvatar />
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ padding: 8 }}>
+										<SvgAvatar />
+									</View>
+									<View>
+										<Text style={styles.txtName}>{data.contractor.c_name}</Text>
+										<Text style={styles.txtBalance}>{data.end_date}</Text>
+										<Text>{data.object}</Text>
+									</View>
 								</View>
-								<View>
-									<Text style={styles.txtName}>{data.contractor.c_name}</Text>
-									<Text style={styles.txtBalance}>{data.end_date}</Text>
-									<Text>{data.object}</Text>
-									<View style={{ height: 60 }} />
+								<View style={{ marginBottom: 10 }}>
+									<TouchableOpacity
+										onPress={() =>
+											navigation.navigate(PROTECTEDROUTES.Routes, {
+												idContract: data.contractor_id
+											})
+										}
+										style={styles.btnFlow}
+									>
+										<Text style={styles.txtFlow}>Ver las rutas </Text>
+									</TouchableOpacity>
 								</View>
 							</View>
 						</React.Fragment>

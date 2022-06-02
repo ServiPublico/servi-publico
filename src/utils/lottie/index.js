@@ -1,6 +1,6 @@
 const lottie = {
 	lottieFiles: {
-		animation: require('./99724-jumping-squares.json')
+		animation: require('./animation.json')
 	}
 }
 export default lottie

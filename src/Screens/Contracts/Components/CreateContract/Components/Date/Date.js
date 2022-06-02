@@ -37,7 +37,8 @@ export const DateComponent = ({
 				date={date}
 				mode='date'
 				onConfirm={(date) => {
-					handleChangeSelect(nameInput, date.toJSON())
+					const valueStr = date.toJSON().split('T')
+					handleChangeSelect(nameInput, valueStr[0])
 					handleChangeTextDate(name, date.toJSON())
 					setOpen(false)
 					setDate(date)

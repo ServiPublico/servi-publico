@@ -142,5 +142,13 @@ export const styles = StyleSheet.create({
 		width: 1,
 		backgroundColor: '#F7F8F9',
 		borderRadius: 16
+	},
+	btnFlow: {
+		width: 150,
+		height: 40,
+		borderRadius: 20,
+		backgroundColor: 'rgba(105,121,248,0.3)',
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 })

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
-export const Input = ({ name, handleChange, label }) => {
+export const Input = ({ value, name, handleChange, label }) => {
 	return (
 		<View>
 			<View style={{ marginHorizontal: 23, marginTop: 7 }}>
@@ -9,8 +9,8 @@ export const Input = ({ name, handleChange, label }) => {
 			</View>
 			<View style={[styles.contentInput, { marginTop: 10 }]}>
 				<TextInput
+					value={value}
 					style={styles.input}
-					placeholder='contrato'
 					onChangeText={handleChange(name)}
 					placeholderTextColor={'#ABA4AC'}
 					secureTextEntry={false}
