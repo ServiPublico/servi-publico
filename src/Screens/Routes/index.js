@@ -9,6 +9,9 @@ import { fetchDataRoutes } from '../../redux/actions/actionRoutes'
 import { Text, View, StatusBar, TouchableOpacity } from 'react-native'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 import { Input } from '../Contracts/Components/CreateContract/Components/Input/Input'
+import SvgBack from '../../svgs/profile/SvgBack'
+import SvgActive from '../../svgs/notification/SvgActive'
+import SvgClient5 from '../../svgs/profile/SvgClient5'
 
 const initialInputs = {
 	centerFrom: '',
@@ -59,12 +62,12 @@ const Routes = ({ dataRoutes, actions }) => {
 				barStyle={'light-content'}
 			/>
 			<View style={styles.header}>
-				<Text style={styles.title}>Routes</Text>
+				<Text style={styles.title}>Rutas</Text>
 				<TouchableOpacity
 					onPress={() => navigation.goBack()}
 					style={styles.btnClose}
 				>
-					<SvgOption />
+					<SvgBack />
 				</TouchableOpacity>
 			</View>
 			<View style={{ backgroundColor: 'white', padding: 2, margin: 10 }}>
@@ -93,13 +96,24 @@ const Routes = ({ dataRoutes, actions }) => {
 				</View>
 			</View>
 			<View>
-				<Text style={{ textAlign: 'center' }}>Rutas</Text>
+				<Text style={[styles.time, { textAlign: 'center' }]}>Rutas</Text>
 				<ScrollView>
 					{dataRoutes?.map((data, i) => (
 						<React.Fragment key={i}>
-							<View style={{ padding: 10 }}>
-								<Text>Desde: {data.from}</Text>
-								<Text>Hasta: {data.to}</Text>
+							<View style={styles.item}>
+								<SvgClient5 style={styles.avatar} />
+								<Text style={styles.name}>
+									<Text style={styles.des}>Desde: {data.from}</Text>
+								</Text>
+								<Text style={styles.name}>
+									<Text style={styles.des}>Hasta: {data.to}</Text>
+								</Text>
+								<Text style={styles.time}>Descripcion {data.from}</Text>
+
+								<TouchableOpacity style={styles.btnFlow}>
+									<Text style={styles.txtFlow}>Eliminar ruta</Text>
+								</TouchableOpacity>
+								<SvgActive style={styles.svgActive} />
 							</View>
 						</React.Fragment>
 					))}

@@ -16,6 +16,7 @@ import SvgClient3 from '../../svgs/profile/SvgClient3'
 import SvgClient2 from '../../svgs/profile/SvgClient2'
 import SvgClient5 from '../../svgs/profile/SvgClient5'
 import SvgActive from '../../svgs/notification/SvgActive'
+import { useNavigation } from '@react-navigation/native'
 
 const dataNotis = [
 	{
@@ -72,6 +73,7 @@ const dataNotis = [
 const keyExtractor = (item) => item.id.toString()
 
 export const Notification = () => {
+	const navigation = useNavigation()
 	const renderItem = useCallback(({ item, index }) => {
 		const { Svg, name, des, active, reply, time, flow } = item
 		return (
@@ -100,7 +102,10 @@ export const Notification = () => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.title}>Notification</Text>
-				<TouchableOpacity style={styles.btnClose}>
+				<TouchableOpacity
+					style={styles.btnClose}
+					onPress={() => navigation.goBack()}
+				>
 					<SvgClose />
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.btnOption}>

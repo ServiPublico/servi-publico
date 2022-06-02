@@ -67,13 +67,13 @@ export const styles = StyleSheet.create({
 		width: 120,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: 'rgba(105,121,248,0.1)',
+		backgroundColor: '#FFA26B',
 		marginTop: 16,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	txtFlow: {
-		fontSize: 13,
-		color: '#6979F8'
+		fontSize: 15,
+		color: '#ffff'
 	}
 })

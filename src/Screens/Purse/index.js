@@ -96,19 +96,27 @@ const Purse = ({ dataPymes, actions, onOpen }) => {
 										</Text>
 										<Text style={styles.time}>fecha: {data?.payment_date}</Text>
 										<Text style={styles.total}>Total: {data?.cost}</Text>
-										<TouchableOpacity
-											onPress={() =>
-												navigation.navigate(
-													PROTECTEDROUTES.MoreInfomationPurse,
-													{
-														data
-													}
-												)
-											}
-											style={styles.btnFlow}
+										<View
+											style={{
+												flexDirection: 'row',
+												justifyContent: 'flex-end',
+												marginRight: 20
+											}}
 										>
-											<Text style={styles.txtFlow}>Ver mas</Text>
-										</TouchableOpacity>
+											<TouchableOpacity
+												onPress={() =>
+													navigation.navigate(
+														PROTECTEDROUTES.MoreInfomationPurse,
+														{
+															data
+														}
+													)
+												}
+												style={styles.btnFlow}
+											>
+												<Text style={styles.txtFlow}>Ver mas</Text>
+											</TouchableOpacity>
+										</View>
 									</View>
 								</React.Fragment>
 							))}

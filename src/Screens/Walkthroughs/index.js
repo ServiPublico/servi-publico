@@ -80,7 +80,7 @@ export const Walkthroughs = ({ navigation }) => {
 					SERVIPUBLICO
 				</Text>
 				<Pagination
-					dotsLength={4}
+					dotsLength={3}
 					activeDotIndex={indexActive}
 					dotStyle={styles.dotStyle}
 					inactiveDotStyle={styles.inactiveDotStyle}
@@ -103,7 +103,7 @@ export const Walkthroughs = ({ navigation }) => {
 			</View>
 
 			<TouchableOpacity style={styles.btnSignIn} onPress={onPress}>
-				<Text style={styles.txtSignIn}>Sign In</Text>
+				<Text style={styles.txtSignIn}>Iniciar sesion</Text>
 			</TouchableOpacity>
 		</View>
 	)
@@ -112,7 +112,7 @@ export const Walkthroughs = ({ navigation }) => {
 const styles = StyleSheet.create({
 	slider: {
 		marginTop: 15,
-		height: '80%',
+		height: '70%',
 		overflow: 'hidden', // for custom animations
 		padding: 0,
 		margin: 0

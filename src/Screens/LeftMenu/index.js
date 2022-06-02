@@ -7,35 +7,17 @@ import { setToken } from '../../redux/actions/actionGlobal'
 import SvgAvatar from '../../svgs/menu/SvgAvatar'
 import { navigate, ROUTERS } from '../../utils/navigation'
 
-const PROTECTEDROUTERS = ['Fuec', 'Profile']
+const PROTECTEDROUTERS = ['Fuec', 'Profile', 'Notification']
 const ROUTERSMAP = ['SigIn', 'Onboarding', 'ForgotPassword']
 
 const LeftMenu = ({ tokenAuth, actions, onClose }) => {
 	const [index, setIndex] = useState(0)
-	const [tokenLogin, setTokenLogin] = useState(null)
 
 	const onPress = (key, index) => {
 		onClose()
 		navigate(key)
 		setIndex(index)
 	}
-
-	const getTokenAndBusiness = async () => {
-		try {
-			const jsonValue = await AsyncStorage.getItem('token')
-			return {
-				token: jsonValue != null ? JSON.parse(jsonValue) : null
-			}
-		} catch (e) {
-			console.error(e)
-		}
-	}
-
-	;(async () => {
-		const { token } = await getTokenAndBusiness()
-		setTokenLogin(token)
-		setDataApi(data)
-	})()
 
 	const signOut = async () => {
 		await AsyncStorage.removeItem('token')

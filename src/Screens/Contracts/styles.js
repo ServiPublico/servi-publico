@@ -93,6 +93,11 @@ export const styles = StyleSheet.create({
 
 		fontWeight: '500'
 	},
+	txtFlow: {
+		color: 'white',
+		fontSize: 15
+	},
+
 	txtKeep: {
 		fontSize: 16,
 		color: '#FFF'
@@ -145,9 +150,9 @@ export const styles = StyleSheet.create({
 	},
 	btnFlow: {
 		width: 150,
-		height: 40,
+		height: 35,
 		borderRadius: 20,
-		backgroundColor: 'rgba(105,121,248,0.3)',
+		backgroundColor: '#6979F8',
 		justifyContent: 'center',
 		alignItems: 'center'
 	}

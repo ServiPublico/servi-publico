@@ -71,7 +71,14 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 										<Text>{data.object}</Text>
 									</View>
 								</View>
-								<View style={{ marginBottom: 10 }}>
+								<View
+									style={{
+										marginBottom: 10,
+										flexDirection: 'row',
+										justifyContent: 'flex-end',
+										marginRight: 20
+									}}
+								>
 									<TouchableOpacity
 										onPress={() =>
 											navigation.navigate(PROTECTEDROUTES.Routes, {
@@ -80,7 +87,7 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 										}
 										style={styles.btnFlow}
 									>
-										<Text style={styles.txtFlow}>Ver las rutas </Text>
+										<Text style={styles.txtFlow}>Ver las rutas</Text>
 									</TouchableOpacity>
 								</View>
 							</View>
