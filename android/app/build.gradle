@@ -212,7 +212,15 @@ android {
             }
         }
     }
-
+    
+    signingConfigs {
+    release {
+      storeFile file('your_key_name.keystore')
+      storePassword 'servipublico'
+      keyAlias 'your_key_alias'
+      keyPassword 'servipublico'
+    }
+  }
     splits {
         abi {
             reset()
@@ -221,14 +229,7 @@ android {
             include (*reactNativeArchitectures())
         }
     }
-    signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-    }
+    
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -239,6 +240,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 

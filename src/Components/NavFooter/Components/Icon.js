@@ -23,10 +23,9 @@ export const IconNav = ({ Icon, flag, route, text }) => {
 		>
 			<View>
 				{flag ? (
-					<Text style={{ textAlign: 'center' }}>{text}</Text>
+					<Text style={{ textAlign: 'center', color: 'black' }}>{text}</Text>
 				) : (
 					<Icon />
-					// <StarIcon />
 				)}
 			</View>
 		</TouchableOpacity>

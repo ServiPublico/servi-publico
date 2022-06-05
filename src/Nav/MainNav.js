@@ -26,7 +26,7 @@ import CreateContracts from '../Screens/Contracts/Components/CreateContract'
 import { MoreInfomationPurse } from '../Screens/Purse/Components/MoreInfomationPurse'
 import { fetchToken } from '../redux/actions/actionGlobal'
 import { connect } from 'react-redux'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 const optionNavigator = {
 	headerShown: false,
 	gesturesEnabled: false
@@ -62,7 +62,18 @@ const MainNavigation = ({ tokenAuth, actions }) => {
 		actions.fetchTokenAction()
 	}, [])
 	if (tokenAuth.token === null) {
-		return <Text>esta cargandoo .....</Text>
+		return (
+			<View
+				style={{
+					width: '100%',
+					height: '100%',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+			>
+				<Text style={{ fontSize: 20 }}> cargandoo .....</Text>
+			</View>
+		)
 	}
 	return (
 		<ScalingDrawer

@@ -82,11 +82,12 @@ const CreateContracts = ({
 	const [date1, setDate1] = useState(new Date())
 	const [idVehicle, setidVehicle] = useState(null)
 	const [MenuPurse, setMenuPurse] = useState('23%')
+	const [flagModal, setflagModal] = useState(false)
+	const [flagInputs, setFlagInputs] = useState(false)
 	const [departamentName, setDepartamentName] = useState('')
 	const [inputsInTheView, setInputsInTheView] = useState(true)
 	const [inputsGroupOne, setInputsGroupOne] = useState(initialState)
 	const [inputsGroupTwo, setInputsGroupTwo] = useState(initialStateTwo)
-	const [flagModal, setflagModal] = useState(false)
 	useEffect(() => {
 		;(async () => {
 			const { token, business } = await getTokenAndBusiness()
@@ -165,6 +166,8 @@ const CreateContracts = ({
 		})
 		if (responsePost.succes) {
 			setflagModal(true)
+		} else {
+			setFlagInputs(true)
 		}
 	}
 
@@ -261,6 +264,11 @@ const CreateContracts = ({
 							handleChange={handleChange}
 							label='Nombre del contacto'
 						/>
+						{flagInputs && (
+							<Text style={{ marginLeft: 22, color: 'red' }}>
+								Nombre requerido
+							</Text>
+						)}
 						<Input
 							value={inputsGroupOne.lastNameContac}
 							name='lastNameContac'
@@ -285,6 +293,11 @@ const CreateContracts = ({
 							handleChange={handleChange}
 							label='Numero de celular'
 						/>
+						{flagInputs && (
+							<Text style={{ marginLeft: 22, color: 'red' }}>
+								Debes de tener tipo cedula
+							</Text>
+						)}
 						<TouchableOpacity
 							onPress={() => {
 								setMenuPurse('73%')
@@ -316,6 +329,11 @@ const CreateContracts = ({
 							defaultButtonText='Tipo de contrato'
 							arrayData={typesContracts}
 						/>
+						{flagInputs && (
+							<Text style={{ marginLeft: 22, color: 'red' }}>
+								Debe tener el tipo de contratp
+							</Text>
+						)}
 						<SelectDropdownCompo
 							name='assignVehicle'
 							handleChange={handleChangeSelect}
@@ -323,6 +341,11 @@ const CreateContracts = ({
 							defaultButtonText='Asigna vehiculo'
 							arrayData={arrayVehicles}
 						/>
+						{flagInputs && (
+							<Text style={{ marginLeft: 22, color: 'red' }}>
+								Debe de tener un vehiculo
+							</Text>
+						)}
 						<SelectDropdownCompo
 							name='assignFirstDriver'
 							handleChange={handleChangeSelect}
@@ -391,6 +414,11 @@ const CreateContracts = ({
 							setOpen={setOpen}
 							setDate={setDate}
 						/>
+						{flagInputs && (
+							<Text style={{ marginLeft: 22, color: 'red' }}>
+								Debe de tener la fecha de inicio
+							</Text>
+						)}
 						<DateComponent
 							nameInput='endDate'
 							handleChangeSelect={handleChangeSelect}
@@ -403,6 +431,11 @@ const CreateContracts = ({
 							setOpen={setOpen1}
 							setDate={setDate1}
 						/>
+						{flagInputs && (
+							<Text style={{ marginLeft: 22, color: 'red' }}>
+								Debe de tener la fecha de final
+							</Text>
+						)}
 						<Input
 							value={inputsGroupTwo.detailOfContract}
 							name='detailOfContract'

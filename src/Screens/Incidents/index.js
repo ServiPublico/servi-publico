@@ -5,8 +5,8 @@ import LottieView from 'lottie-react-native'
 import React, { useEffect, useRef } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { NavFooter } from '../../Components/NavFooter'
-import SvgOption from '../../svgs/staticsHealth/SvgOptions'
-import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
+// import SvgOption from '../../svgs/staticsHealth/SvgOptions'
+// import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
 import { fetchDataIncidents } from '../../redux/actions/actionIncidents'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 import { Text, View, StatusBar, TouchableOpacity, Animated } from 'react-native'
@@ -43,13 +43,13 @@ const Incidents = ({ dataIncidents, actions }) => {
 				barStyle={'light-content'}
 			/>
 			<View style={styles.header}>
-				<Text style={styles.title}>INCIDENCIAS</Text>
-				<TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
+				<Text style={styles.title}>Incidencias</Text>
+				{/* <TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
 					<SvgOption />
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			{dataIncidents.length === 0 ? (
 				<View style={{}}>

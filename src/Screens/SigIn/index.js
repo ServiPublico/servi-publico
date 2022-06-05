@@ -100,12 +100,6 @@ const SigIn = ({ actions, navigation }) => {
 	return (
 		<View style={styles.container}>
 			<Header />
-			<Input
-				mt={40}
-				placeholder={'Email'}
-				handleChange={handleChange}
-				value={Inputs.Email}
-			/>
 			<SelectDropdown
 				data={businessNames}
 				onSelect={(selectedItem, index) => {
@@ -135,6 +129,12 @@ const SigIn = ({ actions, navigation }) => {
 				rowTextForSelection={(item, index) => item}
 			/>
 			<Input
+				mt={40}
+				placeholder={'Email'}
+				handleChange={handleChange}
+				value={Inputs.Email}
+			/>
+			<Input
 				value={Inputs.Password}
 				mt={16}
 				pass={true}
@@ -158,7 +158,6 @@ const SigIn = ({ actions, navigation }) => {
 				<Text style={styles.txtForgot}>Forgot password?</Text>
 			</TouchableOpacity>
 			<View style={styles.containerOr}>
-				<View style={styles.line} />
 				{/* <Text style={styles.txtOr}>or</Text> */}
 				<View style={styles.line} />
 			</View>

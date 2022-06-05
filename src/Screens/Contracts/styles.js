@@ -35,11 +35,40 @@ export const styles = StyleSheet.create({
 		textTransform: 'uppercase',
 		marginTop: 9
 	},
+	name: {
+		fontWeight: '600',
+		fontSize: 16,
+		color: '#1A051D'
+	},
+	item: {
+		marginHorizontal: 16,
+		marginTop: 16,
+		backgroundColor: '#FFF',
+		paddingLeft: 17,
+		paddingTop: 20,
+		paddingBottom: 13,
+		borderRadius: 16
+	},
+	des: {
+		fontWeight: '500',
+		color: '#1A051D'
+	},
+	time: {
+		fontSize: 14,
+		color: '#2D88B3',
+
+		marginTop: 4
+	},
+	total: {
+		fontSize: 14,
+		color: 'black',
+		marginTop: 4
+	},
 	btnUpdate: {
 		width: 160,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: '#6979F8',
+		backgroundColor: '#0084F4',
 		marginTop: 16,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -152,7 +181,7 @@ export const styles = StyleSheet.create({
 		width: 150,
 		height: 35,
 		borderRadius: 20,
-		backgroundColor: '#6979F8',
+		backgroundColor: '#0084F4',
 		justifyContent: 'center',
 		alignItems: 'center'
 	}

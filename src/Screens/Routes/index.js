@@ -12,7 +12,13 @@ import { Input } from '../Contracts/Components/CreateContract/Components/Input/I
 import SvgBack from '../../svgs/profile/SvgBack'
 import SvgActive from '../../svgs/notification/SvgActive'
 import SvgClient5 from '../../svgs/profile/SvgClient5'
-
+const resetInputs = {
+	centerFrom: '',
+	centerTo: '',
+	routeDetails: '',
+	departureLocation: '',
+	arrivalLocation: ''
+}
 const initialInputs = {
 	centerFrom: '',
 	centerTo: '',
@@ -26,6 +32,7 @@ const Routes = ({ dataRoutes, actions }) => {
 	const route = useRoute()
 	const { idContract } = route.params
 	const [flag, setFlag] = useState(false)
+	const [flagInputs, setFlagInputs] = useState(false)
 	const [inputs, setInputs] = useState(initialInputs)
 
 	useEffect(() => {
@@ -45,12 +52,18 @@ const Routes = ({ dataRoutes, actions }) => {
 
 	const onSubmitDate = async () => {
 		const { token, business } = await getTokenAndBusiness()
-		await postRoute({
-			business,
-			BearerToken: token,
-			idContract,
-			obj1: inputs
-		})
+		console.log(inputs)
+		if (inputs.departureLocation === '' || inputs.departureLocation === '') {
+			setFlagInputs(true)
+		} else {
+			await postRoute({
+				business,
+				BearerToken: token,
+				idContract,
+				obj1: inputs
+			})
+			setInputs(resetInputs)
+		}
 		setFlag(!flag)
 	}
 
@@ -77,12 +90,22 @@ const Routes = ({ dataRoutes, actions }) => {
 					handleChange={handleChange}
 					label='Desde'
 				/>
+				{flagInputs && (
+					<Text style={{ color: 'red', marginLeft: 16 }}>
+						debes llenar este campo con alemnos 3 caracteres{' '}
+					</Text>
+				)}
 				<Input
 					value={inputs.arrivalLocation}
 					name='arrivalLocation'
 					handleChange={handleChange}
 					label='Hasta'
 				/>
+				{flagInputs && (
+					<Text style={{ color: 'red', marginLeft: 16 }}>
+						debes llenar este campo con alemnos 3 caracteres{' '}
+					</Text>
+				)}
 				<Input
 					value={inputs.routeDetails}
 					name='routeDetails'

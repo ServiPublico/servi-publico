@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { styles } from './style'
 import { useRoute } from '@react-navigation/native'
 import { NavFooter } from '../../Components/NavFooter'
-import SvgOption from '../../svgs/staticsHealth/SvgOptions'
-import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
+// import SvgOption from '../../svgs/staticsHealth/SvgOptions'
+// import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
 import {
 	Text,
 	View,
@@ -36,12 +36,12 @@ const Fuec = ({ dataFuec, actions, onOpen }) => {
 			/>
 			<View style={styles.header}>
 				<Text style={styles.title}>Fuec</Text>
-				<TouchableOpacity style={styles.btnClose}>
+				{/* <TouchableOpacity style={styles.btnClose}>
 					<SvgOption />
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.btnOption}>
+				</TouchableOpacity> */}
+				{/* <TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			<View style={{ width: '100%', height: '76%' }}>
 				<ScrollView>
@@ -55,9 +55,17 @@ const Fuec = ({ dataFuec, actions, onOpen }) => {
 								<Text style={styles.total}>
 									Placa: {data?.vehicle?.car_plate}
 								</Text>
-								<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
-									<Text style={styles.txtFlow}>Descagar </Text>
-								</TouchableOpacity>
+								<Text style={styles.total}>object: {data?.object}</Text>
+								{console.log(data)}
+								{data.routes.length > 0 ? (
+									<TouchableOpacity onPress={() => {}} style={styles.btnFlow}>
+										<Text style={styles.txtFlow}>Descagar </Text>
+									</TouchableOpacity>
+								) : (
+									<Text style={[styles.des, { paddingTop: 10 }]}>
+										No hay rutas para Descargar
+									</Text>
+								)}
 							</View>
 						</React.Fragment>
 					))}

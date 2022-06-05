@@ -1,12 +1,11 @@
 import { styles } from './styles'
 import { connect } from 'react-redux'
 import React, { useEffect } from 'react'
-import SvgAvatar from '../../svgs/menu/SvgAvatar'
 import { NavFooter } from '../../Components/NavFooter'
 import { PROTECTEDROUTES } from '../../utils/navigation'
 import { ScrollView } from 'react-native-gesture-handler'
-import SvgOption from '../../svgs/staticsHealth/SvgOptions'
-import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
+// import SvgOption from '../../svgs/staticsHealth/SvgOptions'
+// import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { View, Text, TouchableOpacity, StatusBar } from 'react-native'
 import { fetchDataContracts } from '../../redux/actions/actionContracts'
@@ -36,12 +35,12 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 			/>
 			<View style={styles.header}>
 				<Text style={styles.title}>Contratos</Text>
-				<TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
+				{/* <TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
 					<SvgOption />
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.btnOption}>
+				</TouchableOpacity> */}
+				{/* <TouchableOpacity style={styles.btnOption}>
 					<SvgSetting />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			<TouchableOpacity
 				onPress={onPressCreateContract}
@@ -54,42 +53,22 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 				<ScrollView>
 					{dataContracts?.data?.map((data, i) => (
 						<React.Fragment key={i}>
-							<View
-								style={{
-									backgroundColor: '#FFF',
-									paddingLeft: 20,
-									marginTop: 10
-								}}
-							>
-								<View style={{ flexDirection: 'row' }}>
-									<View style={{ padding: 8 }}>
-										<SvgAvatar />
-									</View>
-									<View>
-										<Text style={styles.txtName}>{data.contractor.c_name}</Text>
-										<Text style={styles.txtBalance}>{data.end_date}</Text>
-										<Text>{data.object}</Text>
-									</View>
-								</View>
-								<View
-									style={{
-										marginBottom: 10,
-										flexDirection: 'row',
-										justifyContent: 'flex-end',
-										marginRight: 20
-									}}
+							<View style={styles.item}>
+								<Text style={styles.name}>
+									<Text style={styles.des}>{data?.contractor?.c_name}</Text>
+								</Text>
+								<Text style={styles.time}>fecha: {data?.end_date}</Text>
+								<Text style={styles.total}>Object: {data?.object}</Text>
+								<TouchableOpacity
+									onPress={() =>
+										navigation.navigate(PROTECTEDROUTES.Routes, {
+											idContract: data.contractor_id
+										})
+									}
+									style={[styles.btnFlow, { marginTop: 10 }]}
 								>
-									<TouchableOpacity
-										onPress={() =>
-											navigation.navigate(PROTECTEDROUTES.Routes, {
-												idContract: data.contractor_id
-											})
-										}
-										style={styles.btnFlow}
-									>
-										<Text style={styles.txtFlow}>Ver las rutas</Text>
-									</TouchableOpacity>
-								</View>
+									<Text style={styles.txtFlow}>Rutas</Text>
+								</TouchableOpacity>
 							</View>
 						</React.Fragment>
 					))}
