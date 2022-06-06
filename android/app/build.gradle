@@ -133,13 +133,13 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+ 
     defaultConfig {
-        applicationId "com.servipublic"
+        applicationId "co.com.atena.servipublico"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 101000
+        versionName "1.1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
@@ -215,10 +215,10 @@ android {
     
     signingConfigs {
     release {
-      storeFile file('your_key_name.keystore')
-      storePassword 'servipublico'
-      keyAlias 'your_key_alias'
-      keyPassword 'servipublico'
+      storeFile file('quasar-release-key.jks')
+      storePassword 'MarioCarlos99'
+      keyAlias 'quasar-release'
+      keyPassword 'MarioCarlos99'
     }
   }
     splits {
@@ -268,7 +268,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+   implementation "androidx.core:core-splashscreen:1.0.0-beta01"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }

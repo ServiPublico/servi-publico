@@ -34,7 +34,7 @@ const StaticsHealth = ({ getDataMain, actions }) => {
 			})
 		})()
 	}, [])
-	console.log(getDataMain)
+
 	return (
 		<View style={styles.container}>
 			<StatusBar
@@ -62,27 +62,29 @@ const StaticsHealth = ({ getDataMain, actions }) => {
 						<></>
 					) : (
 						<>
-							{getDataMain.map((data) => (
-								<View style={styles.containerChart}>
-									<View style={styles.boxHeader}>
-										<Text style={styles.txtTitle}>
-											{data.title}
-											<Text style={{ color: '#ABA4AC' }}></Text>
-										</Text>
+							{getDataMain.map((data, i) => (
+								<React.Fragment key={i}>
+									<View style={styles.containerChart}>
+										<View style={styles.boxHeader}>
+											<Text style={styles.txtTitle}>
+												{data.title}
+												<Text style={{ color: '#ABA4AC' }}></Text>
+											</Text>
+										</View>
+										<View style={styles.line} />
+										<View
+											style={{ flexDirection: 'row', justifyContent: 'center' }}
+										>
+											<Text style={{ fontSize: 20 }}>{data.quantity}</Text>
+										</View>
+										<View style={styles.boxBottom}>
+											<TouchableOpacity style={styles.btnBottom}>
+												<Text style={styles.txtBtnBottom}>{data.text}</Text>
+											</TouchableOpacity>
+											<View style={styles.lineVertical} />
+										</View>
 									</View>
-									<View style={styles.line} />
-									<View
-										style={{ flexDirection: 'row', justifyContent: 'center' }}
-									>
-										<Text style={{ fontSize: 20 }}>{data.quantity}</Text>
-									</View>
-									<View style={styles.boxBottom}>
-										<TouchableOpacity style={styles.btnBottom}>
-											<Text style={styles.txtBtnBottom}>{data.text}</Text>
-										</TouchableOpacity>
-										<View style={styles.lineVertical} />
-									</View>
-								</View>
+								</React.Fragment>
 							))}
 						</>
 					)}

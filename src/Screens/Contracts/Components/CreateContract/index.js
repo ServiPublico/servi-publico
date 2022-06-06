@@ -212,7 +212,7 @@ const CreateContracts = ({
 							setInputsInTheView(i === 0 ? true : false)
 						}}
 						style={styles.btnTime}
-						key={item}
+						key={i}
 					>
 						<Text style={styles.txtTime}>{item}</Text>
 					</TouchableOpacity>

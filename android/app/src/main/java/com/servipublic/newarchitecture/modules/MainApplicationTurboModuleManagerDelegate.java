@@ -1,4 +1,4 @@
-package com.servipublic.newarchitecture.modules;
+package co.com.atena.servipublico.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

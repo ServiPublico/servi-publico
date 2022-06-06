@@ -1,4 +1,4 @@
-package com.servipublic;
+package co.com.atena.servipublico;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,7 +15,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import com.servipublic.newarchitecture.MainApplicationReactNativeHost;
+import co.com.atena.servipublico.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.servipublic.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("co.com.atena.servipublico.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

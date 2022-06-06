@@ -27,6 +27,8 @@ import CreateContracts from '../Screens/Contracts/Components/CreateContract'
 import { fetchToken } from '../redux/actions/actionGlobal'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
+import RNBootSplash from 'react-native-bootsplash'
+
 const optionNavigator = {
 	headerShown: false,
 	gesturesEnabled: false
@@ -76,13 +78,17 @@ const MainNavigation = ({ tokenAuth, actions }) => {
 			</View>
 		)
 	}
+
 	return (
 		<ScalingDrawer
 			ref={drawer}
 			content={<LeftMenu onClose={onClose} onOpen={onOpen} />}
 			{...defaultScalingDrawerConfig}
 		>
-			<NavigationContainer ref={navigationRef}>
+			<NavigationContainer
+				onReady={() => RNBootSplash.hide({ fade: true })}
+				ref={navigationRef}
+			>
 				<Navigator
 					screenOptions={{
 						headerShown: false,

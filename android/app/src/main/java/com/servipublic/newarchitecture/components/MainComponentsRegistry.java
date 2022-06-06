@@ -1,4 +1,4 @@
-package com.servipublic.newarchitecture.components;
+package co.com.atena.servipublico.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

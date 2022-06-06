@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import store from './src/redux'
 import { Provider } from 'react-redux'
 import MainNavigation from './src/Nav/MainNav'
