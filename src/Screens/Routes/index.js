@@ -52,7 +52,6 @@ const Routes = ({ dataRoutes, actions }) => {
 
 	const onSubmitDate = async () => {
 		const { token, business } = await getTokenAndBusiness()
-		console.log(inputs)
 		if (inputs.departureLocation === '' || inputs.departureLocation === '') {
 			setFlagInputs(true)
 		} else {

@@ -7,7 +7,6 @@ import {
 	NavigationContainer
 } from '../utils/navigation'
 import Purse from '../Screens/Purse'
-import React, { useEffect, useRef } from 'react'
 import Fuec from '../Screens/Fuec'
 import SigIn from '../Screens/SigIn'
 import Routes from '../Screens/Routes'
@@ -15,15 +14,16 @@ import Contracts from '../Screens/Contracts'
 import { Profile } from '../Screens/Profile'
 import LeftMenu from '../Screens/LeftMenu'
 import Incidents from '../Screens/Incidents'
+import React, { useEffect, useRef } from 'react'
 import { MyLicense } from '../Screens/MyLicense'
 import { ForgotPass } from '../Screens/ForgotPass'
 import { Notification } from '../Screens/Notification'
 import { Walkthroughs } from '../Screens/Walkthroughs'
 import ScalingDrawer from 'react-native-scaling-drawer'
-import { StaticsHealth } from '../Screens/StaticsHealth'
+import StaticsHealth from '../Screens/StaticsHealth'
 import { CreateRoutes } from '../Screens/Routes/CreateRoutes'
-import CreateContracts from '../Screens/Contracts/Components/CreateContract'
 import { MoreInfomationPurse } from '../Screens/Purse/Components/MoreInfomationPurse'
+import CreateContracts from '../Screens/Contracts/Components/CreateContract'
 import { fetchToken } from '../redux/actions/actionGlobal'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
@@ -61,6 +61,7 @@ const MainNavigation = ({ tokenAuth, actions }) => {
 	useEffect(() => {
 		actions.fetchTokenAction()
 	}, [])
+
 	if (tokenAuth.token === null) {
 		return (
 			<View

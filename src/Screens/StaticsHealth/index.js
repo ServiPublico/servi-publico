@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 
 import {
 	View,
@@ -19,12 +19,22 @@ import SvgWeight from '../../svgs/staticsHealth/SvgWeight'
 import { Chart } from './components/Chart'
 import { NavFooter } from '../../Components/NavFooter'
 import { useRoute } from '@react-navigation/native'
+import { connect } from 'react-redux'
+import { fetchDataMain } from '../../redux/actions/actionMain'
+import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
-const dataTime = ['DAYS', 'WEEKS', 'MONTHS', 'YEARS']
-
-export const StaticsHealth = ({ navigation }) => {
+const StaticsHealth = ({ getDataMain, actions }) => {
 	const route = useRoute()
-
+	useEffect(() => {
+		;(async () => {
+			const { token, business } = await getTokenAndBusiness()
+			await actions.fetchDataMainAction({
+				token,
+				business
+			})
+		})()
+	}, [])
+	console.log(getDataMain)
 	return (
 		<View style={styles.container}>
 			<StatusBar
@@ -42,67 +52,60 @@ export const StaticsHealth = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 
-			<View style={styles.containerTime}>
-				{dataTime.map((item) => {
-					return (
-						<TouchableOpacity style={styles.btnTime} key={item}>
-							<Text style={styles.txtTime}>{item}</Text>
-						</TouchableOpacity>
-					)
-				})}
-				<SvgHover style={styles.svgHover} />
+			<View style={{ height: '77%' }}>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View style={styles.boxStatus}>
+						<Text style={styles.txtGood}>Buen dia 👍</Text>
+						<Text style={styles.txtKeep}>EMPIEZA A GESTIONAR!</Text>
+					</View>
+					{getDataMain.length <= 0 ? (
+						<></>
+					) : (
+						<>
+							{getDataMain.map((data) => (
+								<View style={styles.containerChart}>
+									<View style={styles.boxHeader}>
+										<Text style={styles.txtTitle}>
+											{data.title}
+											<Text style={{ color: '#ABA4AC' }}></Text>
+										</Text>
+									</View>
+									<View style={styles.line} />
+									<View
+										style={{ flexDirection: 'row', justifyContent: 'center' }}
+									>
+										<Text style={{ fontSize: 20 }}>{data.quantity}</Text>
+									</View>
+									<View style={styles.boxBottom}>
+										<TouchableOpacity style={styles.btnBottom}>
+											<Text style={styles.txtBtnBottom}>{data.text}</Text>
+										</TouchableOpacity>
+										<View style={styles.lineVertical} />
+									</View>
+								</View>
+							))}
+						</>
+					)}
+				</ScrollView>
 			</View>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={styles.boxStatus}>
-					<Text style={styles.txtGood}>Good Healh 👍</Text>
-					<Text style={styles.txtKeep}>Keep track it everyday!</Text>
-				</View>
 
-				<View style={styles.containerChart}>
-					<View style={styles.boxHeader}>
-						<SvgGlueco />
-						<Text style={styles.txtTitle}>
-							Glueco <Text style={{ color: '#ABA4AC' }}>(mg/Dl)</Text>
-						</Text>
-						<SvgEdit />
-					</View>
-					<Chart />
-					<View style={styles.line} />
-					<View style={styles.boxBottom}>
-						<TouchableOpacity style={styles.btnBottom}>
-							<Text style={styles.txtBtnBottom}>See Details</Text>
-						</TouchableOpacity>
-						<View style={styles.lineVertical} />
-						<TouchableOpacity style={styles.btnBottom}>
-							<Text style={styles.txtBtnBottomActive}>Set Goals</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-				<View style={styles.containerChart}>
-					<View style={styles.boxHeader}>
-						<SvgWeight />
-						<Text style={styles.txtTitle}>
-							Weight <Text style={{ color: '#ABA4AC' }}>(kg)</Text>
-						</Text>
-						<SvgEdit />
-					</View>
-					<Chart />
-					<View style={styles.line} />
-					<View style={styles.boxBottom}>
-						<TouchableOpacity style={styles.btnBottom}>
-							<Text style={styles.txtBtnBottom}>See Details</Text>
-						</TouchableOpacity>
-						<View style={styles.lineVertical} />
-						<TouchableOpacity style={styles.btnBottom}>
-							<Text style={styles.txtBtnBottomActive}>Set Goals</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</ScrollView>
 			<NavFooter route={route.name} />
 		</View>
 	)
 }
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: { fetchDataMainAction: fetchDataMain(dispatch) }
+	}
+}
+
+function mapStateToProps(state) {
+	return {
+		getDataMain: state.mainReducer.getDataMain
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StaticsHealth)
 
 const styles = StyleSheet.create({
 	container: {
