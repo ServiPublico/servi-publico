@@ -13,12 +13,20 @@ export const Input = (props) => {
 	const onPressOut = useCallback(() => {
 		setSecure(true)
 	}, [])
-
+	console.log(props.colorBorder)
 	return (
-		<View style={[styles.container, { marginTop: props.mt }]}>
+		<View
+			style={[
+				styles.container,
+				{
+					marginTop: props.mt,
+					borderColor: props.colorBorder
+				}
+			]}
+		>
 			<TextInput
 				value={props.value}
-				style={styles.input}
+				style={[styles.input, {}]}
 				placeholder={props.placeholder}
 				placeholderTextColor={'#ABA4AC'}
 				secureTextEntry={secure}

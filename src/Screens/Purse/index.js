@@ -15,8 +15,6 @@ import { fetchData } from '../../redux/actions/action'
 import SvgHover from '../../svgs/staticsHealth/SvgHover'
 import { PROTECTEDROUTES } from '../../utils/navigation'
 import React, { useEffect, useRef, useState } from 'react'
-// import SvgOption from '../../svgs/staticsHealth/SvgOptions'
-// import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
@@ -60,12 +58,6 @@ const Purse = ({ dataPymes, actions, onOpen }) => {
 			/>
 			<View style={styles.header}>
 				<Text style={styles.title}>Cartera</Text>
-				{/* <TouchableOpacity onPress={() => onOpen()} style={styles.btnClose}>
-					<SvgOption />
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.btnOption}>
-					<SvgSetting />
-				</TouchableOpacity> */}
 			</View>
 			<View style={styles.containerTime}>
 				{dataTime.map((item, i) => (
@@ -84,7 +76,7 @@ const Purse = ({ dataPymes, actions, onOpen }) => {
 				))}
 				<SvgHover style={[styles.svgHover, { left: MenuPurse }]} />
 			</View>
-			<View style={{ width: '100%', height: '66%' }}>
+			<View style={{ width: '100%', height: '70%' }}>
 				<ScrollView>
 					{dataPymes.length !== 0 ? (
 						<>

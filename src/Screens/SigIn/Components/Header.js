@@ -1,17 +1,12 @@
 import React, { memo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-// import SvgLogo from '../../../svgs/signIn/SvgLogo'
-// import { Montserrat } from '../../../utils/fonts/index'
-// import SvgPerson from '../../../svgs/signIn/SvgPerson'
 
 export const Header = () => {
 	return (
 		<View style={styles.container}>
-			{/* <SvgLogo /> */}
-			<Text style={styles.txtWelcome}>Welcome</Text>
-			<Text style={styles.txtTo}>to ServiPublic</Text>
+			<Text style={styles.txtWelcome}>Bienvenido</Text>
+			<Text style={styles.txtTo}>a Servipublico</Text>
 			<View style={styles.circle} />
-			{/* <SvgPerson style={styles.svgPerson} /> */}
 		</View>
 	)
 }

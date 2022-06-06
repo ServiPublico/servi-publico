@@ -62,7 +62,7 @@ export const Contracts = ({ dataContracts, actions, onOpen }) => {
 				<Text style={styles.txtUpdate}>Crear contrato</Text>
 			</TouchableOpacity>
 
-			<View style={{ width: '100%', height: '69%' }}>
+			<View style={{ width: '100%', height: '73%' }}>
 				<ScrollView>
 					{dataContracts.length <= 0 ? (
 						<>

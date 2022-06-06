@@ -4,12 +4,10 @@ import { useApiAuth } from './Hooks/useApiAuth'
 import { ROUTERS } from '../../utils/navigation'
 import { Input } from '../SigIn/Components/Input'
 import { Header } from '../SigIn/Components/Header'
-import SvgFaceId from '../../svgs/signIn/SvgFaceId'
 import SelectDropdown from 'react-native-select-dropdown'
 import { setToken } from '../../redux/actions/actionGlobal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
-import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
 const initialInputs = {
 	Email: 'glasipa2014@hotmail.com',
@@ -42,11 +40,13 @@ const businessUrl = [
 const SigIn = ({ actions, navigation }) => {
 	const { postDataLogin } = useApiAuth()
 	const [Inputs, setInputs] = useState(initialInputs)
+	const [flagSelect, setFlagSelect] = useState(false)
 	const [dataSelectBusiness, setDataSelectBusiness] = useState(null)
 
 	const handleChange = (name) => (value) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
+
 	const handleChangeSelect = (name, value) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
@@ -63,16 +63,18 @@ const SigIn = ({ actions, navigation }) => {
 	}
 
 	const onPressSignIn = async (indexBusiness) => {
+		setFlagSelect(false)
 		if (validateDate(Inputs)) {
 			const res = await postDataLogin({
 				business: businessUrl[indexBusiness],
 				email: Inputs.Email,
 				password: Inputs.Password
 			})
-
 			if (res.access_token) {
 				await storeData(res.access_token, businessUrl[indexBusiness])
 				actions.setTokenAction({ token: res.access_token })
+			} else {
+				setFlagSelect(true)
 			}
 		}
 	}
@@ -112,7 +114,7 @@ const SigIn = ({ actions, navigation }) => {
 					marginHorizontal: 40,
 					borderRadius: 24,
 					borderWidth: 1,
-					borderColor: '#EAE8EA',
+					borderColor: flagSelect ? 'red' : '#EAE8EA',
 					height: 48,
 					flexDirection: 'row',
 					alignItems: 'center',
@@ -128,19 +130,36 @@ const SigIn = ({ actions, navigation }) => {
 				buttonTextAfterSelection={(selectedItem, index) => selectedItem}
 				rowTextForSelection={(item, index) => item}
 			/>
+			{flagSelect && (
+				<Text style={{ color: 'red', marginLeft: 60 }}>
+					Debes seleccionar una empresa
+				</Text>
+			)}
 			<Input
+				colorBorder={flagSelect ? 'red' : '#EAE8EA'}
 				mt={40}
 				placeholder={'Email'}
 				handleChange={handleChange}
 				value={Inputs.Email}
 			/>
+			{flagSelect && (
+				<Text style={{ color: 'red', marginLeft: 60 }}>
+					Revisa tu correo electronico
+				</Text>
+			)}
 			<Input
+				colorBorder={flagSelect ? 'red' : '#EAE8EA'}
 				value={Inputs.Password}
 				mt={16}
 				pass={true}
 				placeholder={'Password'}
 				handleChange={handleChange}
 			/>
+			{flagSelect && (
+				<Text style={{ color: 'red', marginLeft: 60 }}>
+					Revisa tu contraseña
+				</Text>
+			)}
 			<View style={styles.containerSignIn}>
 				<TouchableOpacity
 					style={styles.btnSignIn}
@@ -148,21 +167,17 @@ const SigIn = ({ actions, navigation }) => {
 						onPressSignIn(dataSelectBusiness)
 					}}
 				>
-					<Text style={styles.txtSignIn}>SIGN IN</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.btnFaceId} onPress={onPressSignIn}>
-					<SvgFaceId />
+					<Text style={styles.txtSignIn}>INICIAR SESIÓN</Text>
 				</TouchableOpacity>
 			</View>
 			<TouchableOpacity style={styles.btnForgot} onPress={onPressForgot}>
-				<Text style={styles.txtForgot}>Forgot password?</Text>
+				<Text style={styles.txtForgot}>Olvidaste la contraseña?</Text>
 			</TouchableOpacity>
 			<View style={styles.containerOr}>
-				{/* <Text style={styles.txtOr}>or</Text> */}
 				<View style={styles.line} />
 			</View>
 			<TouchableOpacity style={styles.btnSignUp}>
-				<Text style={styles.txtSignUp}>Don’t Have Account? Sign UP</Text>
+				<Text style={styles.txtSignUp}>No tienes una cuenta? Registrate</Text>
 			</TouchableOpacity>
 		</View>
 	)

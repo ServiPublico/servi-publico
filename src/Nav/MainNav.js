@@ -111,6 +111,11 @@ const MainNavigation = ({ tokenAuth, actions }) => {
 					) : (
 						<>
 							<Stack.Screen
+								name={PROTECTEDROUTES.Dashboard}
+								component={StaticsHealth}
+								options={optionNavigator}
+							/>
+							<Stack.Screen
 								options={optionNavigator}
 								name={PROTECTEDROUTES.Fuec}
 							>
@@ -123,11 +128,6 @@ const MainNavigation = ({ tokenAuth, actions }) => {
 							>
 								{() => <Contracts onOpen={onOpen} />}
 							</Stack.Screen>
-							<Stack.Screen
-								name={PROTECTEDROUTES.Dashboard}
-								component={StaticsHealth}
-								options={optionNavigator}
-							/>
 							<Stack.Screen
 								options={optionNavigator}
 								name={PROTECTEDROUTES.Purse}

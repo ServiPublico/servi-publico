@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
 		backgroundColor: '#6979F8',
 		borderBottomLeftRadius: 24,
 		borderBottomRightRadius: 24,
-		height: 96,
+		height: '10%',
 		paddingTop: getStatusBarHeight(),
 		justifyContent: 'center',
 		alignItems: 'center'
@@ -69,7 +69,8 @@ export const styles = StyleSheet.create({
 		height: 40,
 		borderRadius: 20,
 		backgroundColor: '#0084F4',
-		marginTop: 16,
+		marginTop: 10,
+		marginBottom: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignSelf: 'center'

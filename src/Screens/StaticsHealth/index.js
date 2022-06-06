@@ -1,5 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
-
+import React, { useEffect } from 'react'
 import {
 	View,
 	StyleSheet,
@@ -8,19 +7,13 @@ import {
 	ScrollView,
 	StatusBar
 } from 'react-native'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
-
+import { connect } from 'react-redux'
+import { useRoute } from '@react-navigation/native'
+import { NavFooter } from '../../Components/NavFooter'
 import SvgOption from '../../svgs/staticsHealth/SvgOptions'
 import SvgSetting from '../../svgs/staticsHealth/SvgSetting'
-import SvgHover from '../../svgs/staticsHealth/SvgHover'
-import SvgGlueco from '../../svgs/staticsHealth/SvgGlueco'
-import SvgEdit from '../../svgs/staticsHealth/SvgEdit'
-import SvgWeight from '../../svgs/staticsHealth/SvgWeight'
-import { Chart } from './components/Chart'
-import { NavFooter } from '../../Components/NavFooter'
-import { useRoute } from '@react-navigation/native'
-import { connect } from 'react-redux'
 import { fetchDataMain } from '../../redux/actions/actionMain'
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 
 const StaticsHealth = ({ getDataMain, actions }) => {
@@ -43,7 +36,7 @@ const StaticsHealth = ({ getDataMain, actions }) => {
 				barStyle={'light-content'}
 			/>
 			<View style={styles.header}>
-				<Text style={styles.title}>INFORMACION</Text>
+				<Text style={styles.title}>Informacion</Text>
 				<TouchableOpacity style={styles.btnClose}>
 					<SvgOption />
 				</TouchableOpacity>
@@ -52,7 +45,7 @@ const StaticsHealth = ({ getDataMain, actions }) => {
 				</TouchableOpacity>
 			</View>
 
-			<View style={{ height: '77%' }}>
+			<View style={{ height: '80%' }}>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.boxStatus}>
 						<Text style={styles.txtGood}>Buen dia 👍</Text>
@@ -90,7 +83,6 @@ const StaticsHealth = ({ getDataMain, actions }) => {
 					)}
 				</ScrollView>
 			</View>
-
 			<NavFooter route={route.name} />
 		</View>
 	)
@@ -118,7 +110,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#6979F8',
 		borderBottomLeftRadius: 24,
 		borderBottomRightRadius: 24,
-		height: 96,
+		height: '10%',
 		paddingTop: getStatusBarHeight(),
 		justifyContent: 'center',
 		alignItems: 'center'

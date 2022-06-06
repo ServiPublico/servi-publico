@@ -65,7 +65,7 @@ const Fuec = ({ dataFuec, actions }) => {
 					<SvgSetting />
 				</TouchableOpacity> */}
 			</View>
-			<View style={{ width: '100%', height: '76%' }}>
+			<View style={{ width: '100%', height: '81%' }}>
 				<ScrollView>
 					{dataFuec <= 0 ? (
 						<>
