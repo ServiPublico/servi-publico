@@ -13,7 +13,7 @@ import { getTokenAndBusiness } from '../../utils/storage/getTokenAndBussines'
 import LottieView from 'lottie-react-native'
 import lottie from '../../utils/lottie'
 
-export const Contracts = ({ dataContracts, actions, onOpen }) => {
+export const Contracts = ({ dataContracts, actions }) => {
 	const navigation = useNavigation()
 	const route = useRoute()
 	const progress = useRef(new Animated.Value(0)).current

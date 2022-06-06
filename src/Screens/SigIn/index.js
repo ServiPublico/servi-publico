@@ -9,10 +9,15 @@ import { setToken } from '../../redux/actions/actionGlobal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 
+// const initialInputs = {
+// 	Email: 'glasipa2014@hotmail.com',
+// 	business: null,
+// 	Password: '22418165'
+// }
 const initialInputs = {
-	Email: 'glasipa2014@hotmail.com',
+	Email: '',
 	business: null,
-	Password: '22418165'
+	Password: ''
 }
 
 const businessNames = [

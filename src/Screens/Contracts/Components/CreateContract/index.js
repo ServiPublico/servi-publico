@@ -1,25 +1,25 @@
 import { styles } from './style'
-import React, { useEffect, useState } from 'react'
-import { Input } from './Components/Input/Input'
-import { DateComponent } from './Components/Date/Date'
-import { useNavigation } from '@react-navigation/native'
-import { ScrollView } from 'react-native-gesture-handler'
-import { View, Text, TouchableOpacity } from 'react-native'
-import SvgClose from '../../../../svgs/notification/SvgClose'
-import SvgHover from '../../../../svgs/staticsHealth/SvgHover'
-import SvgOption from '../../../../svgs/notification/SvgOption'
-import { SelectDropdownCompo } from './Components/SelectDropdown/SelectDropdown'
 import { connect } from 'react-redux'
+import { Input } from './Components/Input/Input'
 import {
 	fetchDataDepartment,
 	fetchDataDriverVehicle,
 	fetchDataMunicipality,
 	fetchDataVehicle
 } from '../../../../redux/actions/actionContracts'
-import { getTokenAndBusiness } from '../../../../utils/storage/getTokenAndBussines'
-import { postDataContract } from '../../Api/postDataContract'
+import React, { useEffect, useState } from 'react'
 import { Modal } from '../../../../Components/Modal'
+import { DateComponent } from './Components/Date/Date'
+import { useNavigation } from '@react-navigation/native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { View, Text, TouchableOpacity } from 'react-native'
+import SvgClose from '../../../../svgs/notification/SvgClose'
+import { postDataContract } from '../../Api/postDataContract'
 import { PROTECTEDROUTES } from '../../../../utils/navigation'
+import SvgHover from '../../../../svgs/staticsHealth/SvgHover'
+import { getTokenAndBusiness } from '../../../../utils/storage/getTokenAndBussines'
+import SvgOption from '../../../../svgs/notification/SvgOption'
+import { SelectDropdownCompo } from './Components/SelectDropdown/SelectDropdown'
 
 const typesContracts = [
 	'Particular',
@@ -30,34 +30,35 @@ const typesContracts = [
 ]
 const dataTime = ['Contratante', 'Contrato']
 const initialState = {
-	nitBussines: '12435678',
-	nameOfBussineContract: 'Atalaya',
-	addresOffice: 'carrera43c#68asur-32',
-	phoneNumber: '3225713623',
-	email: 'camilo@gmail.com',
-	webPage: 'atalaya.com',
-	nameContact: 'diego',
-	lastNameContac: 'gonzalez',
-	citizenshipCard: '1039865545',
-	addres: 'calle69sur#46a14',
-	numberOfPhone: '3052934567'
+	nitBussines: '',
+	nameOfBussineContract: '',
+	addresOffice: '',
+	phoneNumber: '',
+	email: '',
+	webPage: '',
+	nameContact: '',
+	lastNameContac: '',
+	citizenshipCard: '',
+	addres: '',
+	numberOfPhone: ''
 }
+
 const initialStateTwo = {
-	numberOfContracts: '29999999',
-	income: '1.200.00',
+	numberOfContracts: '',
+	income: '',
 	typeContract: '',
 	assignVehicle: '',
-	assignFirstDriver: 'diego gonzalez',
+	assignFirstDriver: '',
 	assignSecondDriver: '',
 	assignThirdDriver: '',
 	assignFourthDriver: '',
-	objectOfContract: 'trasporte de vehiculos',
+	objectOfContract: '',
 	department: '',
 	municipality: '',
-	conventionName: 'convenio de tranporte',
+	conventionName: '',
 	startDate: '',
 	endDate: '',
-	detailOfContract: 'solo sera por un mes '
+	detailOfContract: ''
 }
 
 const CreateContracts = ({
@@ -480,3 +481,34 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateContracts)
+
+// const initialState = {
+// 	nitBussines: '12435678',
+// 	nameOfBussineContract: 'Atalaya',
+// 	addresOffice: 'carrera43c#68asur-32',
+// 	phoneNumber: '3225713623',
+// 	email: 'camilo@gmail.com',
+// 	webPage: 'atalaya.com',
+// 	nameContact: 'diego',
+// 	lastNameContac: 'gonzalez',
+// 	citizenshipCard: '1039865545',
+// 	addres: 'calle69sur#46a14',
+// 	numberOfPhone: '3052934567'
+// }
+// const initialStateTwo = {
+// 	numberOfContracts: '29999999',
+// 	income: '1.200.00',
+// 	typeContract: '',
+// 	assignVehicle: '',
+// 	assignFirstDriver: 'diego gonzalez',
+// 	assignSecondDriver: '',
+// 	assignThirdDriver: '',
+// 	assignFourthDriver: '',
+// 	objectOfContract: 'trasporte de vehiculos',
+// 	department: '',
+// 	municipality: '',
+// 	conventionName: 'convenio de tranporte',
+// 	startDate: '',
+// 	endDate: '',
+// 	detailOfContract: 'solo sera por un mes '
+// }

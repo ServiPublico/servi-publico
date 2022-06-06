@@ -1,9 +1,23 @@
+import { styles } from './style'
+import lottie from '../../utils/lottie'
+import LottieView from 'lottie-react-native'
+import React, { useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Animated } from 'react-native'
 
 export const Modal = ({ message, route }) => {
 	const navigation = useNavigation()
+	const progress = useRef(new Animated.Value(0)).current
+
+	useEffect(() => {
+		Animated.loop(
+			Animated.timing(progress, {
+				duration: 2000,
+				toValue: 1,
+				useNativeDriver: true
+			})
+		).start()
+	}, [])
 
 	return (
 		<View
@@ -23,36 +37,36 @@ export const Modal = ({ message, route }) => {
 		>
 			<View
 				style={{
+					borderRadius: 20,
 					backgroundColor: 'white',
 					width: 300,
 					height: 300,
 					padding: 20
 				}}
 			>
-				<Text style={{ textAlign: 'center' }}>Servipublico</Text>
-				<Text style={{ textAlign: 'center' }}>{message}</Text>
-				<View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+				<View
+					style={{
+						height: 120,
+						justifyContent: 'center'
+					}}
+				>
+					<LottieView
+						progress={progress}
+						autoplay
+						loop={true}
+						source={lottie.lottieFiles.succes}
+					/>
+				</View>
+
+				<Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500' }}>
+					{message}
+				</Text>
+				<View style={styles.containerSignIn}>
 					<TouchableOpacity
+						style={styles.btnSignIn}
 						onPress={() => navigation.navigate(route)}
-						style={{
-							marginTop: 30,
-							backgroundColor: 'blue',
-							padding: 10,
-							width: '50%',
-							justifyContent: 'center',
-							borderRadius: 10
-						}}
 					>
-						<Text
-							style={{
-								textAlign: 'center',
-								color: 'white',
-								fontSize: 16,
-								fontWeight: '600'
-							}}
-						>
-							ir a ver la ruta
-						</Text>
+						<Text style={styles.txtSignIn}>Ver los contratos</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
