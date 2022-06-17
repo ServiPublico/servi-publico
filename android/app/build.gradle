@@ -138,8 +138,8 @@ android {
         applicationId "co.com.atena.servipublico"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 101010
-        versionName "1.1.1"
+        versionCode 101020
+        versionName "1.1.2"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
