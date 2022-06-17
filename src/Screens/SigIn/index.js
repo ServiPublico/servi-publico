@@ -1,48 +1,23 @@
 import { connect } from 'react-redux'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useApiAuth } from './Hooks/useApiAuth'
 import { ROUTERS } from '../../utils/navigation'
 import { Input } from '../SigIn/Components/Input'
 import { Header } from '../SigIn/Components/Header'
 import SelectDropdown from 'react-native-select-dropdown'
-import { setToken } from '../../redux/actions/actionGlobal'
+import { getBussinesAction, setToken } from '../../redux/actions/actionGlobal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 
-// const initialInputs = {
-// 	Email: 'glasipa2014@hotmail.com',
-// 	business: null,
-// 	Password: '22418165'
-// }
 const initialInputs = {
 	Email: '',
 	business: null,
 	Password: ''
 }
 
-const businessNames = [
-	'Trans. Especiales M&L',
-	'Empresa Demostración',
-	'Readytransport SAS',
-	'Redes Por Mi Colombia S.A.S',
-	'Grupo Emprendedores Futuro S.A.S',
-	'Transporte Los Cardos De Colombia S.A.S',
-	'Cootranscachipay',
-	'Transdaga S.A.S'
-]
+const arrayBussinesNameGlobal = []
 
-const businessUrl = [
-	'myl',
-	'demo',
-	'ready',
-	'redes',
-	'futuro',
-	'cardos',
-	'cachipay',
-	'transdaga'
-]
-
-const SigIn = ({ actions, navigation }) => {
+const SigIn = ({ getBussines, getBussinesNames, actions, navigation }) => {
 	const { postDataLogin } = useApiAuth()
 	const [Inputs, setInputs] = useState(initialInputs)
 	const [flagSelect, setFlagSelect] = useState(false)
@@ -56,6 +31,18 @@ const SigIn = ({ actions, navigation }) => {
 		setInputs((state) => ({ ...state, [name]: value }))
 	}
 
+	useEffect(() => {
+		;(async () => {
+			await actions.getBussinesAc()
+		})()
+	}, [])
+
+	useEffect(() => {
+		getBussines.forEach((element) => {
+			arrayBussinesNameGlobal.push(element.name)
+		})
+	}, [getBussines])
+
 	const storeData = async (tokenSave, businessSave) => {
 		try {
 			const token = JSON.stringify(tokenSave)
@@ -66,21 +53,20 @@ const SigIn = ({ actions, navigation }) => {
 			console.error(e)
 		}
 	}
-
 	const onPressSignIn = async (indexBusiness) => {
 		setFlagSelect(false)
 		if (validateDate(Inputs)) {
 			const res = await postDataLogin({
-				business: businessUrl[indexBusiness],
+				business: getBussinesNames[indexBusiness],
 				email: Inputs.Email,
 				password: Inputs.Password
 			})
 			if (res.access_token) {
-				await storeData(res.access_token, businessUrl[indexBusiness])
+				await storeData(res.access_token, getBussinesNames[indexBusiness])
 				actions.setTokenAction({ token: res.access_token })
-			} else {
-				setFlagSelect(true)
 			}
+		} else {
+			setFlagSelect(true)
 		}
 	}
 
@@ -108,7 +94,7 @@ const SigIn = ({ actions, navigation }) => {
 		<View style={styles.container}>
 			<Header />
 			<SelectDropdown
-				data={businessNames}
+				data={arrayBussinesNameGlobal}
 				onSelect={(selectedItem, index) => {
 					handleChangeSelect('business', selectedItem)
 					setDataSelectBusiness(index)
@@ -190,12 +176,17 @@ const SigIn = ({ actions, navigation }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: { setTokenAction: setToken(dispatch) }
+		actions: {
+			setTokenAction: setToken(dispatch),
+			getBussinesAc: getBussinesAction(dispatch)
+		}
 	}
 }
 function mapStateToProps(state) {
 	return {
-		tokenAuth: state.globalReducer.tokenAuth
+		tokenAuth: state.globalReducer.tokenAuth,
+		getBussines: state.globalReducer.getBussines,
+		getBussinesNames: state.globalReducer.getBussinesNames
 	}
 }
 

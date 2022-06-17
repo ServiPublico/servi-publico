@@ -13,7 +13,6 @@ export const Input = (props) => {
 	const onPressOut = useCallback(() => {
 		setSecure(true)
 	}, [])
-	console.log(props.colorBorder)
 	return (
 		<View
 			style={[

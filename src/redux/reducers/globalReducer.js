@@ -1,7 +1,13 @@
-import { GET_TOKEN } from '../actionsTypes/actionTypesGlobal'
+import {
+	GET_BUSSINES,
+	GET_TOKEN,
+	GET_BUSSINES_NAMES
+} from '../actionsTypes/actionTypesGlobal'
 
 const initialState = {
-	tokenAuth: { token: null }
+	tokenAuth: { token: null },
+	getBussines: [],
+	getBussinesNames: []
 }
 
 export const globalReducer = (state = initialState, action) => {
@@ -10,6 +16,16 @@ export const globalReducer = (state = initialState, action) => {
 			return {
 				...state,
 				tokenAuth: action.payload
+			}
+		case GET_BUSSINES:
+			return {
+				...state,
+				getBussines: action.payload
+			}
+		case GET_BUSSINES_NAMES:
+			return {
+				...state,
+				getBussinesNames: action.payload
 			}
 
 		default: {

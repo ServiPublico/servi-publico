@@ -1,1 +1,3 @@
 export const GET_TOKEN = 'GET_TOKEN'
+export const GET_BUSSINES = 'GET_BUSSINES'
+export const GET_BUSSINES_NAMES = 'GET_BUSSINES_NAMES'
